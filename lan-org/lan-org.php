@@ -22,6 +22,42 @@ require('lanorg-form.php');
 // Main Object
 class LanOrg {
 
+		public $registration_form = array(
+			array(
+				'type' => 'text',
+				'key' => 'nickname',
+				'label' => 'Choissez un pseudonyme :',
+				'validator' => array('empty', 'username_exists', 'username_valid'),
+			),
+			array(
+				'type' => 'text',
+				'key' => 'firstname',
+				'label' => 'Prénom :',
+				'validator' => 'empty',
+			),
+			array(
+				'type' => 'text',
+				'key' => 'lastname',
+				'label' => 'Nom :',
+				'validator' => 'empty',
+			),
+			array(
+				'type' => 'text',
+				'key' => 'email',
+				'label' => 'Courriel :',
+				'validator' => array('empty', 'email_exists', 'email_valid'),
+			),
+			array(
+				'type' => 'text',
+				'key' => 'password',
+				'label' => 'Mot de passe :',
+				'password' => true,
+				'validator' => 'empty',
+			),
+		);
+
+	public $form_prefix = 'lanorg-';
+
 	// Setup the LAN Party Organization plugin
 	public function __construct() {
 		$this->setup_globals();
@@ -56,9 +92,9 @@ class LanOrg {
 		register_activation_hook(__FILE__, array($this, 'activate'));
 		register_deactivation_hook(__FILE__, array($this, 'deactivate'));
 
-		add_action('template_redirect', array($this, 'template_redirect'));
 		add_action('init', array($this, 'setup_rewrite_tags'));
 		add_action('wp_enqueue_scripts', array($this, 'load_static_files'));
+		add_action('template_redirect', array($this, 'redirect_template'));
 
 		add_shortcode('lanorg-register', array($this, 'register_form'));
 	}
@@ -79,6 +115,26 @@ class LanOrg {
 	public function deactivate() {
 	}
 
+	public function redirect_template() {
+		$values = array();
+		if (lanorg_form_post($this->registration_form, $values, $this->form_prefix)) {
+			$errors = array();
+			if (lanorg_form_validation($this->registration_form, $values, $errors)) {
+				wp_insert_user(array(
+					'user_login' => $values['nickname'],
+					'first_name' => $values['firstname'],
+					'last_name' => $values['lastname'],
+					'user_email' => $values['email'],
+					'user_pass' => $values['password'],
+				));
+
+				wp_redirect(home_url());
+				exit;
+			}
+		}
+
+	}
+
 	public function register_form($attr) {
 		wp_enqueue_style('lanorg-form');
 
@@ -93,59 +149,16 @@ class LanOrg {
 	}
 
 	// Get the HTML markup for the registration form
+	// Called from the template
+	// It MUST not process any data, as it can be rendered multiple times
 	public function registration_form_markup() {
-		$fields = array(
-			array(
-				'type' => 'text',
-				'key' => 'nickname',
-				'label' => 'Choissez un pseudonyme :',
-				'validator' => array('empty', 'username_exists', 'username_valid'),
-			),
-			array(
-				'type' => 'text',
-				'key' => 'firstname',
-				'label' => 'Prénom :',
-				'validator' => 'empty',
-			),
-			array(
-				'type' => 'text',
-				'key' => 'lastname',
-				'label' => 'Nom :',
-				'validator' => 'empty',
-			),
-			array(
-				'type' => 'text',
-				'key' => 'email',
-				'label' => 'Courriel :',
-				'validator' => 'empty',
-			),
-			array(
-				'type' => 'text',
-				'key' => 'password',
-				'label' => 'Mot de passe :',
-				'password' => true,
-				'validator' => 'empty',
-			),
-		);
 		$values = array();
 		$errors = array();
 
-		lanorg_form_post($fields, $values, 'lanorg-');
-		lanorg_form_validation($fields, $values, $errors);
+		lanorg_form_post($this->registration_form, $values, $this->form_prefix);
+		lanorg_form_validation($this->registration_form, $values, $errors);
 
-		return lanorg_form_html_as_p($fields, $values, 'lanorg-', $errors);
-	}
-
-	// Custom page handler
-	public function template_redirect() {
-		global $wp;
-
-		echo $wp->query_vars['lanorg'];
-		switch ($wp->query_vars['lanorg']) {
-		case 'register':
-			$this->render_template('lanorg-register.php');
-			break ;
-		}
+		return lanorg_form_html_as_p($this->registration_form, $values, $this->form_prefix, $errors);
 	}
 
 	// Render a given template, overwriting current template
