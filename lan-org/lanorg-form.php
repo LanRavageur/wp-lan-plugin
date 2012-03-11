@@ -6,13 +6,23 @@ $lanorg_field_html = array(
 	'select' => 'lanorg_select_field_html',
 );
 
-$lanorg_validators = array(
+$lanorg_field_validators = array(
 	'empty' => 'lanorg_validate_empty',
 	'username_exists' => 'lanorg_validate_username_exists',
 	'username_valid' => 'lanorg_validate_username_valid',
 	'email_exists' => 'lanorg_validate_email_exists',
 	'email_valid' => 'lanorg_validate_email_valid',
 );
+
+// Generate HTML markup for a form
+// The form is validated if it has been correctly submitted
+function lanorg_form($fields, &$values = array(), &$errors = array()) {
+
+	lanorg_form_post($fields, $values, $lanOrg->form_prefix);
+	lanorg_form_validation($fields, $values, $errors);
+
+	return lanorg_form_html_as_p($fields, $values, $lanOrg->form_prefix, $errors);
+}
 
 // Get POST values for each field
 // @return Boolean 
@@ -89,7 +99,7 @@ function lanorg_form_field_html($field, $value, $prefix='', &$error) {
 // Values are validated and error are added to the $error array.
 // @return TRUE when no error is found.
 function lanorg_form_validation($fields, $values, &$errors) {
-	global $lanorg_validators;
+	global $lanorg_field_validators;
 
 	foreach ($fields as $field) {
 
@@ -109,9 +119,9 @@ function lanorg_form_validation($fields, $values, &$errors) {
 			// The value passes a series of validations
 			foreach ($validators as $validator) {
 
-				if (isset($lanorg_validators[$validator])) {
+				if (isset($lanorg_field_validators[$validator])) {
 
-					$validator_func = $lanorg_validators[$validator];
+					$validator_func = $lanorg_field_validators[$validator];
 
 					$field_errors = array();
 
@@ -120,11 +130,11 @@ function lanorg_form_validation($fields, $values, &$errors) {
 					// currently, only one error is retained
 					if (count($field_errors)) {
 						$errors[$key] = $field_errors[0];
+						break ;
 					}
 				}
 			}
 		}
-
 	}
 
 	return (bool) (count($errors) == 0);
@@ -222,4 +232,5 @@ function lanorg_validate_email_valid($options, $value, &$errors) {
 		array_push($errors, 'Cette adresse courriel n\'est pas de format valide.');
 	}
 }
+
 ?>
