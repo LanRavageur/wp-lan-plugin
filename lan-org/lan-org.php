@@ -18,45 +18,15 @@ if (!defined('ABSPATH')) {
 if (!class_exists('lanOrg')) :
 
 require('lanorg-form.php');
+require('lanorg-account.php');
 
 // Main Object
 class LanOrg {
-
-		public $registration_form = array(
-			array(
-				'type' => 'text',
-				'key' => 'nickname',
-				'label' => 'Choissez un pseudonyme :',
-				'validator' => array('empty', 'username_exists', 'username_valid'),
-			),
-			array(
-				'type' => 'text',
-				'key' => 'firstname',
-				'label' => 'Prénom :',
-				'validator' => 'empty',
-			),
-			array(
-				'type' => 'text',
-				'key' => 'lastname',
-				'label' => 'Nom :',
-				'validator' => 'empty',
-			),
-			array(
-				'type' => 'text',
-				'key' => 'email',
-				'label' => 'Courriel :',
-				'validator' => array('empty', 'email_exists', 'email_valid'),
-			),
-			array(
-				'type' => 'text',
-				'key' => 'password',
-				'label' => 'Mot de passe :',
-				'password' => true,
-				'validator' => 'empty',
-			),
-		);
-
 	public $form_prefix = 'lanorg-';
+
+	// Store the content for custom page
+	public $page_content = '';
+	public $page_title = '';
 
 	// Setup the LAN Party Organization plugin
 	public function __construct() {
@@ -93,10 +63,14 @@ class LanOrg {
 		register_deactivation_hook(__FILE__, array($this, 'deactivate'));
 
 		add_action('init', array($this, 'setup_rewrite_tags'));
+		add_action('init', array($this, 'setup_post_types'));
 		add_action('wp_enqueue_scripts', array($this, 'load_static_files'));
 		add_action('template_redirect', array($this, 'redirect_template'));
 
-		add_shortcode('lanorg-register', array($this, 'register_form'));
+		add_shortcode('lanorg-register', 'lanorg_shortcode_registration_form');
+
+		add_action('generate_rewrite_rules', array($this, 'add_rewrite_rules'));
+		add_filter('query_vars', array($this, 'get_query_vars'));
 	}
 
 	function load_static_files() {
@@ -105,6 +79,33 @@ class LanOrg {
 
 	function setup_rewrite_tags() {
 		add_rewrite_tag('%lanorg%','([^&]+)');
+	}
+
+	function setup_post_types() {
+		register_post_type('lanparty',
+			array(
+				'labels' => array(
+					'name' => 'Lan Parties',
+					'singular_name' => 'Lan Party'
+				),
+				'public' => true,
+				'has_archive' => false,
+				'supports' => array('title'),
+			)
+		);
+	}
+
+	function get_query_vars($query_vars) {
+		$query_vars[] = 'lanorg_page';
+		return $query_vars;
+	}
+
+	public function add_rewrite_rules($wp_rewrite) {
+		$new_rules = array(
+			'login/?$' => 'index.php?lanorg_page=login',
+			'live/?$' => 'index.php?lanorg_page=live',
+		);
+		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 	}
 
 	// Called when the plugin is activated
@@ -116,52 +117,26 @@ class LanOrg {
 	}
 
 	public function redirect_template() {
-		$values = array();
-		if (lanorg_form_post($this->registration_form, $values, $this->form_prefix)) {
-			$errors = array();
-			if (lanorg_form_validation($this->registration_form, $values, $errors)) {
-				wp_insert_user(array(
-					'user_login' => $values['nickname'],
-					'first_name' => $values['firstname'],
-					'last_name' => $values['lastname'],
-					'user_email' => $values['email'],
-					'user_pass' => $values['password'],
-				));
+		global $wp_query;
 
-				wp_redirect(home_url());
-				exit;
+		if (isset($wp_query->query_vars['lanorg_page']))
+		{
+			switch ($wp_query->query_vars['lanorg_page']) {
+			case 'live':
+				$this->render_custom_page('lanorg-live.php');
+				break ;
+			case 'login':
+				$this->render_custom_page('lanorg-login.php');
+				break ;
 			}
 		}
 
-	}
-
-	public function register_form($attr) {
-		wp_enqueue_style('lanorg-form');
-
-		// Turn on output buffering to capture form markup
-		ob_start();
-
-		$this->render_template('lanorg-register.php');
-
-		// Get buffered content
-		$content = ob_get_clean();
-		return $content;
-	}
-
-	// Get the HTML markup for the registration form
-	// Called from the template
-	// It MUST not process any data, as it can be rendered multiple times
-	public function registration_form_markup() {
-		$values = array();
-		$errors = array();
-
-		lanorg_form_post($this->registration_form, $values, $this->form_prefix);
-		lanorg_form_validation($this->registration_form, $values, $errors);
-
-		return lanorg_form_html_as_p($this->registration_form, $values, $this->form_prefix, $errors);
+		lanorg_process_registration_form();
 	}
 
 	// Render a given template, overwriting current template
+	// Lookup first in the theme directory for $template_file, if not found then
+	// fallback to the template directory in plugin directory.
 	public function render_template($template_file) {
 		$template_file_path = TEMPLATEPATH . '/' . $template_file;
 
@@ -170,6 +145,40 @@ class LanOrg {
 		}
 
 		include($template_file_path);
+	}
+
+	public function get_custom_page_title($title, $sep='', $seplocation='') {
+		return 'Salut ' . $sep;
+	}
+
+	public function get_custom_page_content() {
+		return $this->page_content;
+	}
+
+	// Render a given page
+	public function render_custom_page($page_file) {
+		global $wp_query;
+		$wp_query->is_home = FALSE; // Not homepage
+
+		//add_filter('the_title', array($this, 'get_custom_page_title'));
+		add_filter('wp_title', array($this, get_custom_page_title));
+		add_filter('the_content', array($this, 'get_custom_page_content'));
+
+		$GLOBALS['page_title'] = 'abc';
+
+		// Turn on output buffering to capture page content
+		ob_start();
+
+		$this->render_template($page_file);
+
+		// Get buffered content
+		$this->page_content = ob_get_clean();
+
+		$this->page_title = $GLOBALS['page_title'];
+
+		$this->render_template('lanorg-page.php');
+
+		exit ;
 	}
 }
 
