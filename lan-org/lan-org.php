@@ -20,6 +20,7 @@ if (!class_exists('lanOrg')) :
 require('lanorg-form.php');
 require('lanorg-account.php');
 require('lanorg-registration.php');
+require('lanorg-admin.php');
 
 // Main Object
 class LanOrg {
@@ -70,6 +71,7 @@ class LanOrg {
 		add_shortcode('lanorg-register', 'lanorg_shortcode_registration_form');
 
 		add_action('generate_rewrite_rules', array($this, 'add_rewrite_rules'));
+		add_action('admin_menu', array($this, 'add_admin_menus'));
 		add_filter('query_vars', array($this, 'get_query_vars'));
 	}
 
@@ -81,6 +83,17 @@ class LanOrg {
 
 	function setup_rewrite_tags() {
 		add_rewrite_tag('%lanorg%','([^&]+)');
+	}
+
+	function add_admin_menus() {
+		add_menu_page('LAN Organization', 'LAN Organization', 'manage_options',
+			'lanorg');
+
+		add_submenu_page('lanorg', 'Configuration', 'Configuration', 'manage_options',
+			'lanorg', 'lanorg_admin_settings');
+
+		add_submenu_page('lanorg', 'Tournaments', 'Tournaments', 'manage_options',
+			'lanorg-tournaments', 'lanorg_admin_tournaments');
 	}
 
 	function setup_post_types() {
