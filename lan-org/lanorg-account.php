@@ -1,5 +1,5 @@
 <?php
-$lanorg_registration_form = array(
+$lanorg_signup_form = array(
 	array(
 		'type' => 'text',
 		'key' => 'nickname',
@@ -51,10 +51,10 @@ $lanorg_login_form = array(
 
 // Get the HTML markup for the registration form
 // Called from the template
-function lanorg_get_registration_form_markup()
+function lanorg_get_signup_form_markup()
 {
-	global $lanorg_registration_form;
-	return lanorg_form($lanorg_registration_form);
+	global $lanorg_signup_form;
+	return lanorg_form($lanorg_signup_form);
 
 }
 
@@ -123,12 +123,12 @@ function lanorg_login_user(&$error_message = '')
 
 function lanorg_process_registration_form()
 {
-	global $lanorg_registration_form;
+	global $lanorg_signup_form;
 
 	$values = array();
-	if (lanorg_form_post($lanorg_registration_form, $values, $lanOrg->form_prefix)) {
+	if (lanorg_form_post($lanorg_signup_form, $values, $lanOrg->form_prefix)) {
 		$errors = array();
-		if (lanorg_form_validation($lanorg_registration_form, $values, $errors)) {
+		if (lanorg_form_validation($lanorg_signup_form, $values, $errors)) {
 			wp_insert_user(array(
 				'user_login' => $values['nickname'],
 				'first_name' => $values['firstname'],
