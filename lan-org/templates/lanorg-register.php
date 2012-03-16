@@ -1,1 +1,1 @@
-<form class="lanorg-form" method="POST"><?phpglobal $lanOrg;echo lanorg_get_registration_form_markup();?><p><input type="submit" class="lanorg-button" /></p></form>
+<form class="lanorg-form" method="POST"><?phpglobal $lanOrg;echo lanorg_get_signup_form_markup();?><p><input type="submit" class="lanorg-button" /></p></form>

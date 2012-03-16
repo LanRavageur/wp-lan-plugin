@@ -19,6 +19,7 @@ if (!class_exists('lanOrg')) :
 
 require('lanorg-form.php');
 require('lanorg-account.php');
+require('lanorg-registration.php');
 
 // Main Object
 class LanOrg {
@@ -64,7 +65,6 @@ class LanOrg {
 
 		add_action('init', array($this, 'setup_rewrite_tags'));
 		add_action('init', array($this, 'setup_post_types'));
-		add_action('wp_enqueue_scripts', array($this, 'load_static_files'));
 		add_action('template_redirect', array($this, 'redirect_template'));
 
 		add_shortcode('lanorg-register', 'lanorg_shortcode_registration_form');
@@ -75,6 +75,8 @@ class LanOrg {
 
 	function load_static_files() {
 		wp_register_style('lanorg-form', plugins_url('css/form.css', __FILE__));
+		wp_register_style('lanorg-style', plugins_url('css/style.css', __FILE__));
+
 	}
 
 	function setup_rewrite_tags() {
@@ -82,17 +84,6 @@ class LanOrg {
 	}
 
 	function setup_post_types() {
-		register_post_type('lanparty',
-			array(
-				'labels' => array(
-					'name' => 'Lan Parties',
-					'singular_name' => 'Lan Party'
-				),
-				'public' => true,
-				'has_archive' => false,
-				'supports' => array('title'),
-			)
-		);
 	}
 
 	function get_query_vars($query_vars) {
@@ -103,6 +94,7 @@ class LanOrg {
 	public function add_rewrite_rules($wp_rewrite) {
 		$new_rules = array(
 			'login/?$' => 'index.php?lanorg_page=login',
+			'registration/?$' => 'index.php?lanorg_page=registration',
 			'live/?$' => 'index.php?lanorg_page=live',
 		);
 		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
@@ -119,11 +111,16 @@ class LanOrg {
 	public function redirect_template() {
 		global $wp_query;
 
+		$this->load_static_files();
+
 		if (isset($wp_query->query_vars['lanorg_page']))
 		{
 			switch ($wp_query->query_vars['lanorg_page']) {
+			case 'registration':
+				$this->render_two_column_page('lanorg-registration.php');
+				break ;
 			case 'live':
-				$this->render_custom_page('lanorg-live.php');
+				$this->render_two_column_page('lanorg-live.php');
 				break ;
 			case 'login':
 				$this->render_custom_page('lanorg-login.php');
@@ -134,25 +131,38 @@ class LanOrg {
 		lanorg_process_registration_form();
 	}
 
-	// Render a given template, overwriting current template
 	// Lookup first in the theme directory for $template_file, if not found then
 	// fallback to the template directory in plugin directory.
-	public function render_template($template_file) {
+	public function resolve_template_file($template_file) {
 		$template_file_path = TEMPLATEPATH . '/' . $template_file;
 
 		if (!file_exists($template_file_path)) {
 			$template_file_path = $this->template_dir . '/' . $template_file;
 		}
+		return $template_file_path;
+	}
 
+	// Render a given template, overwriting current template
+	public function render_template($template_file) {
+		$template_file_path = $this->resolve_template_file($template_file);
 		include($template_file_path);
 	}
 
 	public function get_custom_page_title($title, $sep='', $seplocation='') {
-		return 'Salut ' . $sep;
+		return $this->page_title . $sep;
 	}
 
 	public function get_custom_page_content() {
 		return $this->page_content;
+	}
+
+	// Render a given page with a two column template
+	public function render_two_column_page($page_file) {
+		$GLOBALS['content_template'] = $this->resolve_template_file($page_file);
+
+		wp_enqueue_style('lanorg-style');
+
+		$this->render_custom_page('lanorg-twocolumn.php');
 	}
 
 	// Render a given page
@@ -179,6 +189,17 @@ class LanOrg {
 		$this->render_template('lanorg-page.php');
 
 		exit ;
+	}
+
+	// Require the user to be logged in or redirects to the login page
+	public function require_login($url = '') {
+		global $wp_rewrite;
+
+		if (!is_user_logged_in()) {
+			$redirect_to = !empty($url) ? $url : $wp_rewrite->root . 'login/';
+			wp_safe_redirect(home_url($redirect_to));
+			exit ;
+		}
 	}
 }
 
