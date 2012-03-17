@@ -114,7 +114,23 @@ function lanorg_login_user(&$error_message = '')
 				$success = TRUE;
 			}
 			else {
-				$error_message = 'Nom d\'utilisateur ou mot de passe incorrect';
+				//authentification by email if fail by username
+				$user = get_user_by( 'email', $values['nickname'] );
+				if ( isset( $user->user_login, $user) ){
+					$username = $user->user_login;
+				}
+				$user_info = array(
+					'user_login' => $username,
+					'user_password' => $values['password'],
+				);
+				$user = wp_signon($user_info);
+				if(!is_wp_error($user)){
+					wp_redirect(home_url());
+					$success = TRUE;				
+				}
+				else{
+					$error_message = 'Nom d\'utilisateur ou mot de passe incorrect';
+				}
 			}
 		}
 	}
