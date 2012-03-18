@@ -5,10 +5,21 @@ $user = wp_get_current_user();
 
 ?>
 <div class="lanorg-2col-left">
-<h3><?php echo htmlentities($user->user_login, NULL, 'UTF-8'); ?></h3>
-<ul>
+<ul class="lanorg-menu">
+<li class="lanorg-menu-title">
+<a href="#"><?php echo htmlentities($user->user_login, NULL, 'UTF-8'); ?></a>
+</li>
 <li>
-<a href="#">S'inscrire</a>
+<a href="#">Confirmer sa présence</a>
+</li>
+<li>
+<a href="#">Équipes</a>
+</li>
+<li>
+<a href="#">Tournois</a>
+</li>
+<li>
+<a href="#">Déconnexion</a>
 </li>
 </ul>
 </div>
