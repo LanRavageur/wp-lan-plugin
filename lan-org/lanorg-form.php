@@ -199,9 +199,15 @@ function lanorg_select_field_html($options, $value, $prefix) {
 	$key = $prefix . $options['key'];
 	$css_classes = 'lanorg-field lanorg-select';
 	$choices = $options['choices'];
+
+	if ($value !== NULL) {
+		if (!isset($choices[$value])) {
+			$value = NULL;
+		}
+	}
 	// Default option
 	if ($value === NULL && isset($options['default'])) {
-		$value = $options['default'];
+		$default_key = $options['default'];
 	}
 
 	// Label tag, if supplied
