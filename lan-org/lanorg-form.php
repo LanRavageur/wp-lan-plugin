@@ -16,12 +16,12 @@ $lanorg_field_validators = array(
 
 // Generate HTML markup for a form
 // The form is validated if it has been correctly submitted
-function lanorg_form($fields, &$values = array(), &$errors = array()) {
+function lanorg_form($fields, &$values = array(), &$errors = array(), $renderer='lanorg_form_html_as_p') {
 
 	lanorg_form_post($fields, $values, $lanOrg->form_prefix);
 	lanorg_form_validation($fields, $values, $errors);
 
-	return lanorg_form_html_as_p($fields, $values, $lanOrg->form_prefix, $errors);
+	return call_user_func($renderer, $fields, $values, $lanOrg->form_prefix, $errors);
 }
 
 // Get POST values for each field
@@ -64,11 +64,68 @@ function lanorg_form_html_as_p($fields, $values, $prefix='', $errors=array()) {
 
 		if ($field_markup !== NULL) {
 			$markup .= '<p>';
+
+			if ($error !== NULL) {
+				$markup .= $error . '<br/>';
+				$css_classes .= ' lanorg-error';
+			}
+
+			// Label tag, if supplied
+			if (isset($field['label'])) {
+				$markup .= lanorg_label_html($key, $field['label']);
+			}
+
 			$markup .= $field_markup;
 			$markup .= '</p>';
 		}
 	}
 
+	return $markup;
+}
+
+// Generate HTML markup for a form
+// Each field is enclosed in a table
+function lanorg_form_html_as_table($fields, $values, $prefix='', $errors=array()) {
+	$markup = '';
+
+	$markup .= '<table class="form-table">';
+	foreach ($fields as $field) {
+
+		$key = $field['key'];
+		$value = isset($values[$key]) ? $values[$key] : NULL;
+
+		$error = NULL;
+
+		if (isset($errors[$key])) {
+			$error = $errors[$key];
+		}
+
+		$field_markup = lanorg_form_field_html($field, $value, $prefix, $error);
+
+		if ($field_markup !== NULL) {
+			$markup .= '<tr valign="top">';
+
+			if ($error !== NULL) {
+				$markup = $error . '<br/>';
+				$css_classes .= ' lanorg-error';
+			}
+
+			// Label tag, if supplied
+			if (isset($field['label'])) {
+				$markup .= '<th scope="row">';
+				$markup .= lanorg_label_html($key, $field['label']);
+				$markup .= '</th>';
+			}
+
+			$markup .= '<th scope="row">';
+			$markup .= $field_markup;
+			$markup .= '</th>';
+
+			$markup .= '</tr>';
+		}
+	}
+
+	$markup .= '</table>';
 	return $markup;
 }
 
@@ -164,19 +221,9 @@ function lanorg_text_field_html($options, $value, $prefix, $error) {
 	$is_password = isset($options['password']) && $options['password'];
 	$css_classes = 'lanorg-field lanorg-text';
 
-	if ($error !== NULL) {
-		$markup = $error . '<br/>';
-		$css_classes .= ' lanorg-error';
-	}
-
 	// Default option
 	if ($value === NULL && isset($options['default'])) {
 		$value = $options['default'];
-	}
-
-	// Label tag, if supplied
-	if (isset($options['label'])) {
-		$markup .= lanorg_label_html($key, $options['label']);
 	}
 
 	$markup .= '<input ';
@@ -208,11 +255,6 @@ function lanorg_select_field_html($options, $value, $prefix) {
 	// Default option
 	if ($value === NULL && isset($options['default'])) {
 		$value = $options['default'];
-	}
-
-	// Label tag, if supplied
-	if (isset($options['label'])) {
-		$markup .= lanorg_label_html($key, $options['label']);
 	}
 
 	$markup .= '<select ';
