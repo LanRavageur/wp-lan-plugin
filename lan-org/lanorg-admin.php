@@ -3,8 +3,8 @@
 // Display admin tabs
 function lanorg_get_admin_tabs($current) {
 	$tabs = array(
-		'lanorg' => 'Configuration',
-		'lanorg-tournaments' => 'Tournaments',
+		'lanorg' => __('Configuration'),
+		'lanorg-tournaments' => __('Tournaments')
 	);
 
 	echo '<h2 class="nav-tab-wrapper">';

@@ -241,35 +241,35 @@ function lanorg_select_field_html($options, $value, $prefix) {
 // Checks if the field is empty
 function lanorg_validate_empty($options, $value, &$errors) {
 	if (empty($value)) {
-		array_push($errors, 'Ce champ est obligatoire.');
+		array_push($errors, __('This field is required.', 'lanorg'));
 	}
 }
 
 // Raise an error when the username is already taken
 function lanorg_validate_username_exists($options, $value, &$errors) {
 	if (username_exists($value)) {
-		array_push($errors, 'Ce pseudonyme existe déjà.');
+		array_push($errors, __('This nickname already exists.', 'lanorg'));
 	}
 }
 
 // Raise an error when the username is already taken
 function lanorg_validate_username_valid($options, $value, &$errors) {
 	if (!validate_username($value)) {
-		array_push($errors, 'Ce pseudonyme n\'est pas valide.');
+		array_push($errors, __('This nickname is not valid.', 'lanorg'));
 	}
 }
 
 // Raise an error when the email address has already been registered
 function lanorg_validate_email_exists($options, $value, &$errors) {
 	if (email_exists($value)) {
-		array_push($errors, 'Cette adresse courriel est déjà inscrite.');
+		array_push($errors, __('This email is already registered.', 'lanorg'));
 	}
 }
 
 // Raise an error when the given email address is not valid
 function lanorg_validate_email_valid($options, $value, &$errors) {
 	if (!is_email($value)) {
-		array_push($errors, 'Cette adresse courriel n\'est pas de format valide.');
+		array_push($errors, __('This email is not a valid format.', 'lanorg'));
 	}
 }
 

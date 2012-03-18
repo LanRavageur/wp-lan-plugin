@@ -3,57 +3,57 @@ $lanorg_signup_form = array(
 	array(
 		'type' => 'text',
 		'key' => 'nickname',
-		'label' => 'Choissez un pseudonyme :',
+		'label' => __('Choose a nickname :', 'lanorg'),
 		'validator' => array('empty', 'username_exists', 'username_valid'),
 	),
 	array(
 		'type' => 'text',
 		'key' => 'firstname',
-		'label' => 'Prénom :',
+		'label' => __('First name :', 'lanorg'),
 		'validator' => 'empty',
 	),
 	array(
 		'type' => 'text',
 		'key' => 'lastname',
-		'label' => 'Nom :',
+		'label' => __('Name :', 'lanorg'),
 		'validator' => 'empty',
 	),
 	array(
 		'type' => 'text',
 		'key' => 'email',
-		'label' => 'Courriel :',
+		'label' => __('Email :', 'lanorg'),
 		'validator' => array('empty', 'email_exists', 'email_valid'),
 	),
 	array(
 		'type' => 'text',
 		'key' => 'password',
-		'label' => 'Mot de passe :',
+		'label' => __('Password :', 'lanorg'),
 		'password' => true,
 		'validator' => 'empty',
 	),
 	array(
 		'type' => 'select',
 		'key' => 'options',
-		'label' => 'Options: ',
+		'label' => __('Options :', 'lanorg'),
 		'default' => 'def',
 		'choices' => array('asd' => 'ASD', 'def' => 'DEF', 'ghi' => 'GHI'),
-	),
+	)
 );
 
 $lanorg_login_form = array(
 	array(
 		'type' => 'text',
 		'key' => 'username-or-email',
-		'label' => 'Courriel :',
+		'label' => __('Email :', 'lanorg'),
 		'validator' => array('empty'),
 	),
 	array(
 		'type' => 'text',
 		'key' => 'password',
-		'label' => 'Mot de passe :',
+		'label' => __('Password :', 'lanorg'),
 		'password' => true,
 		'validator' => 'empty',
-	),
+	)
 );
 
 // Get the HTML markup for the registration form
@@ -127,7 +127,7 @@ function lanorg_login_user(&$error_message = '')
 				$success = TRUE;				
 			}
 			else{
-				$error_message = 'Nom d\'utilisateur ou mot de passe incorrect';
+				$error_message = __('Username or password incorrect', 'lanorg');
 			}
 		}
 	}
