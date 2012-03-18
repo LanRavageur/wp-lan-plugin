@@ -207,7 +207,7 @@ function lanorg_select_field_html($options, $value, $prefix) {
 	}
 	// Default option
 	if ($value === NULL && isset($options['default'])) {
-		$default_key = $options['default'];
+		$value = $options['default'];
 	}
 
 	// Label tag, if supplied
