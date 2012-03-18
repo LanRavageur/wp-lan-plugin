@@ -37,13 +37,6 @@ function lanorg_init_form() {
 			'password' => true,
 			'validator' => 'empty',
 		),
-		array(
-			'type' => 'select',
-			'key' => 'options',
-			'label' => __('Options :', 'lanorg'),
-			'default' => 'def',
-			'choices' => array('asd' => 'ASD', 'def' => 'DEF', 'ghi' => 'GHI'),
-		)
 	);
 }
 
