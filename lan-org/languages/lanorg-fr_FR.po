@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 20:56-0500\n"
-"PO-Revision-Date: 2012-03-17 20:57-0500\n"
+"POT-Creation-Date: 2012-03-18 11:58-0500\n"
+"PO-Revision-Date: 2012-03-18 11:58-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,91 @@ msgstr ""
 "X-Poedit-Country: CANADA\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../lanorg-contact-methods.php:10
+#: ../lanorg-account.php:6
+msgid "Choose a nickname :"
+msgstr "Choisissez un pseudonyme :"
+
+#: ../lanorg-account.php:12
+msgid "First name :"
+msgstr "Prénom :"
+
+#: ../lanorg-account.php:18
+msgid "Name :"
+msgstr "Nom :"
+
+#: ../lanorg-account.php:24
+#: ../lanorg-account.php:47
+msgid "Email :"
+msgstr "Courriel :"
+
+#: ../lanorg-account.php:30
+#: ../lanorg-account.php:53
+msgid "Password :"
+msgstr "Mot de passe :"
+
+#: ../lanorg-account.php:37
+msgid "Options :"
+msgstr "Options :"
+
+#: ../lanorg-account.php:130
+msgid "Username or password incorrect"
+msgstr "Nom d'utilisateur ou mot de passe incorrect"
+
+#: ../lanorg-admin.php:6
+msgid "Configuration"
+msgstr "Configuration"
+
+#: ../lanorg-admin.php:7
+msgid "Tournaments"
+msgstr "Tournois"
+
+#: ../lanorg-contactMethods.php:12
+#: ../templates/lanorg-contact-methods.php:10
 msgid "Twitter Username"
 msgstr "Nom d'utilisateur Twitter"
 
-#: ../lanorg-contact-methods.php:11
+#: ../lanorg-contactMethods.php:12
+msgid "(without @)"
+msgstr "(sans @)"
+
+#: ../lanorg-contactMethods.php:13
+#: ../templates/lanorg-contact-methods.php:11
 msgid "Facebook Username"
 msgstr "Nom d'utilisateur Facebook"
+
+#: ../lanorg-contactMethods.php:14
+msgid "Steam Account"
+msgstr "Compte Steam"
+
+#: ../lanorg-contactMethods.php:14
+msgid "(to let new friends meet you ingame)"
+msgstr "(pour permettre à de nouveaux amis de rejoindre vos parties en ligne)"
+
+#: ../lanorg-contactMethods.php:15
+msgid "Origin Account"
+msgstr "Compte Origin"
+
+#: ../lanorg-contactMethods.php:15
+msgid "(same here)"
+msgstr "(même chose ici)"
+
+#: ../lanorg-form.php:244
+msgid "This field is required."
+msgstr "Ce champ est obligatoire."
+
+#: ../lanorg-form.php:251
+msgid "This nickname already exists."
+msgstr "Ce pseudonyme existe déjà."
+
+#: ../lanorg-form.php:258
+msgid "This nickname is not valid."
+msgstr "Ce pseudonyme n'est pas valide."
+
+#: ../lanorg-form.php:265
+msgid "This email is already registered."
+msgstr "Cet adresse courriel est déjà enregistré."
+
+#: ../lanorg-form.php:272
+msgid "This email is not a valid format."
+msgstr "Cet adresse courriel n'a pas un format valide."
 
