@@ -21,6 +21,7 @@ require('lanorg-form.php');
 require('lanorg-account.php');
 require('lanorg-registration.php');
 require('lanorg-admin.php');
+require('lanorg-contactMethods.php');
 
 // Main Object
 class LanOrg {
@@ -66,6 +67,10 @@ class LanOrg {
 
 		add_action('init', array($this, 'setup_rewrite_tags'));
 		add_action('init', array($this, 'setup_post_types'));
+
+		// Adds Translation support
+		load_plugin_textdomain( 'lanorg', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
 		add_action('template_redirect', array($this, 'redirect_template'));
 
 		add_shortcode('lanorg-register', 'lanorg_shortcode_registration_form');
