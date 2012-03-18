@@ -1,44 +1,53 @@
 <?php
-$lanorg_signup_form = array(
-	array(
-		'type' => 'text',
-		'key' => 'nickname',
-		'label' => __('Choose a nickname :', 'lanorg'),
-		'validator' => array('empty', 'username_exists', 'username_valid'),
-	),
-	array(
-		'type' => 'text',
-		'key' => 'firstname',
-		'label' => __('First name :', 'lanorg'),
-		'validator' => 'empty',
-	),
-	array(
-		'type' => 'text',
-		'key' => 'lastname',
-		'label' => __('Name :', 'lanorg'),
-		'validator' => 'empty',
-	),
-	array(
-		'type' => 'text',
-		'key' => 'email',
-		'label' => __('Email :', 'lanorg'),
-		'validator' => array('empty', 'email_exists', 'email_valid'),
-	),
-	array(
-		'type' => 'text',
-		'key' => 'password',
-		'label' => __('Password :', 'lanorg'),
-		'password' => true,
-		'validator' => 'empty',
-	),
-	array(
-		'type' => 'select',
-		'key' => 'options',
-		'label' => __('Options :', 'lanorg'),
-		'default' => 'def',
-		'choices' => array('asd' => 'ASD', 'def' => 'DEF', 'ghi' => 'GHI'),
-	)
-);
+
+$lanorg_signup_form = NULL;
+
+function lanorg_init_form() {
+	global $lanorg_signup_form;
+
+	$lanorg_signup_form = array(
+		array(
+			'type' => 'text',
+			'key' => 'nickname',
+			'label' => __('Choose a nickname :', 'lanorg'),
+			'validator' => array('empty', 'username_exists', 'username_valid'),
+		),
+		array(
+			'type' => 'text',
+			'key' => 'firstname',
+			'label' => __('First name :', 'lanorg'),
+			'validator' => 'empty',
+		),
+		array(
+			'type' => 'text',
+			'key' => 'lastname',
+			'label' => __('Name :', 'lanorg'),
+			'validator' => 'empty',
+		),
+		array(
+			'type' => 'text',
+			'key' => 'email',
+			'label' => __('Email :', 'lanorg'),
+			'validator' => array('empty', 'email_exists', 'email_valid'),
+		),
+		array(
+			'type' => 'text',
+			'key' => 'password',
+			'label' => __('Password :', 'lanorg'),
+			'password' => true,
+			'validator' => 'empty',
+		),
+		array(
+			'type' => 'select',
+			'key' => 'options',
+			'label' => __('Options :', 'lanorg'),
+			'default' => 'def',
+			'choices' => array('asd' => 'ASD', 'def' => 'DEF', 'ghi' => 'GHI'),
+		)
+	);
+}
+
+add_action('init', 'lanorg_init_form');
 
 $lanorg_login_form = array(
 	array(
@@ -60,8 +69,13 @@ $lanorg_login_form = array(
 // Called from the template
 function lanorg_get_signup_form_markup()
 {
+	$markup = '';
 	global $lanorg_signup_form;
-	return lanorg_form($lanorg_signup_form);
+
+	if ($lanorg_signup_form !== NULL) {
+		$markup = lanorg_form($lanorg_signup_form);
+	}
+	return $markup;
 
 }
 
@@ -123,7 +137,7 @@ function lanorg_login_user(&$error_message = '')
 			);
 			$user = wp_signon($user_info);
 			if(!is_wp_error($user)){
-				wp_redirect(home_url());
+				//wp_redirect(home_url());
 				$success = TRUE;				
 			}
 			else{
@@ -139,22 +153,24 @@ function lanorg_process_registration_form()
 	global $lanorg_signup_form;
 
 	$values = array();
-	if (lanorg_form_post($lanorg_signup_form, $values, $lanOrg->form_prefix)) {
-		$errors = array();
-		if (lanorg_form_validation($lanorg_signup_form, $values, $errors)) {
-			wp_insert_user(array(
-				'user_login' => $values['nickname'],
-				'first_name' => $values['firstname'],
-				'last_name' => $values['lastname'],
-				'user_email' => $values['email'],
-				'user_pass' => $values['password'],
-			));
 
-			wp_redirect(home_url());
-			exit;
+	if ($lanorg_signup_form !== NULL) {
+		if (lanorg_form_post($lanorg_signup_form, $values, $lanOrg->form_prefix)) {
+			$errors = array();
+			if (lanorg_form_validation($lanorg_signup_form, $values, $errors)) {
+				wp_insert_user(array(
+					'user_login' => $values['nickname'],
+					'first_name' => $values['firstname'],
+					'last_name' => $values['lastname'],
+					'user_email' => $values['email'],
+					'user_pass' => $values['password'],
+				));
+
+				//wp_redirect(home_url());
+				exit;
+			}
 		}
 	}
-
 }
 
 ?>
