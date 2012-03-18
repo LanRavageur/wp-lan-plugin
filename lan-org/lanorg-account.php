@@ -31,6 +31,13 @@ $lanorg_signup_form = array(
 		'password' => true,
 		'validator' => 'empty',
 	),
+	array(
+		'type' => 'select',
+		'key' => 'options',
+		'label' => 'Options: ',
+		'default' => 'def',
+		'choices' => array('asd', 'def', 'ghi'),
+	),
 );
 
 $lanorg_login_form = array(

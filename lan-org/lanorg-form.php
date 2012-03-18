@@ -192,8 +192,40 @@ function lanorg_text_field_html($options, $value, $prefix, $error) {
 }
 
 // TODO: Select field
-function lanorg_select_field_html($options, $value, $prefix) {
+function lanorg_select_field_html($options, $value, $prefix, $choices) {
+	$markup = '';
+	$key = $prefix . $options['key'];
+	$css_classes = 'lanorg-field lanorg-select';
+	$choices = $options['choices'];
+	// Default option
+	if ($value === NULL && isset($options['default'])) {
+		$value = $options['default'];
+	}
 
+	// Label tag, if supplied
+	if (isset($options['label'])) {
+		$markup .= lanorg_label_html($key, $options['label']);
+	}
+
+	$markup .= '<select ';
+	$markup .= 'id="' . $key . '" ';
+	$markup .= 'name="' . $key . '" ';
+	$markup .= 'class="' . $css_classes . '"/>';
+	
+	foreach($choices as $choice)
+	{
+		$markup .= '<option value="'.$choice.'" ';
+		if($choice === $value)
+		{
+			$markup .= 'selected="selected"';
+		}
+		$markup .= '>'.$choice.'</option>';
+	}
+	if ($value !== NULL) {
+		$markup .= 'value="' . htmlentities($value, NULL, 'UTF-8') . '" ';
+	}
+	$markup .= '</select>';
+	return $markup;
 }
 
 // ** Data validation ***********
