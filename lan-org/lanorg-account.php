@@ -43,8 +43,8 @@ $lanorg_signup_form = array(
 $lanorg_login_form = array(
 	array(
 		'type' => 'text',
-		'key' => 'nickname',
-		'label' => 'Pseudonyme :',
+		'key' => 'username-or-email',
+		'label' => 'Courriel :',
 		'validator' => array('empty'),
 	),
 	array(
@@ -109,35 +109,25 @@ function lanorg_login_user(&$error_message = '')
 	if (lanorg_form_post($lanorg_login_form, $values, $lanOrg->form_prefix)) {
 		$errors = array();
 		if (lanorg_form_validation($lanorg_login_form, $values, $errors)) {
-			$user_info = array(
-				'user_login' => $values['nickname'],
-				'user_password' => $values['password'],
-			);
-
-			$user = wp_signon($user_info);
-
-			if (!is_wp_error($user)) {
-				wp_redirect(home_url());
-				$success = TRUE;
+			//authentification by email if fail by username
+			$user = get_user_by( 'email', $values['username-or-email'] );
+			if (isset($user, $user->user_login)){
+				$username = $user->user_login;
 			}
 			else {
-				//authentification by email if fail by username
-				$user = get_user_by( 'email', $values['nickname'] );
-				if ( isset( $user->user_login, $user) ){
-					$username = $user->user_login;
-				}
-				$user_info = array(
-					'user_login' => $username,
-					'user_password' => $values['password'],
-				);
-				$user = wp_signon($user_info);
-				if(!is_wp_error($user)){
-					wp_redirect(home_url());
-					$success = TRUE;				
-				}
-				else{
-					$error_message = 'Nom d\'utilisateur ou mot de passe incorrect';
-				}
+				$username = $values['username-or-email'];
+			}
+			$user_info = array(
+				'user_login' => $username,
+				'user_password' => $values['password'],
+			);
+			$user = wp_signon($user_info);
+			if(!is_wp_error($user)){
+				wp_redirect(home_url());
+				$success = TRUE;				
+			}
+			else{
+				$error_message = 'Nom d\'utilisateur ou mot de passe incorrect';
 			}
 		}
 	}
