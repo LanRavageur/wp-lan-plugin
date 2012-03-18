@@ -118,8 +118,21 @@ class LanOrg {
 		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 	}
 
-	// Called when the plugin is activated
+	// Plugin activation code
 	public function activate() {
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'lanorg_tournaments';
+		$stmt =
+"CREATE TABLE $table_name (
+  id smallint(5) NOT NULL AUTO_INCREMENT,
+	game TINYTEXT NOT NULL,
+	publisher TINYTEXT NOT NULL,
+	UNIQUE KEY id (id)
+);";
+		dbDelta($stmt);
+
 	}
 
 	// Called when the plugin is desactivated
