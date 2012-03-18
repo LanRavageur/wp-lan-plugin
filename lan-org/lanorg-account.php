@@ -36,7 +36,7 @@ $lanorg_signup_form = array(
 		'key' => 'options',
 		'label' => 'Options: ',
 		'default' => 'def',
-		'choices' => array('asd', 'def', 'ghi'),
+		'choices' => array('asd' => 'ASD', 'def' => 'DEF', 'ghi' => 'GHI'),
 	),
 );
 

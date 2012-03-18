@@ -157,7 +157,7 @@ function lanorg_display_error() {
 
 // Text field
 // Parameters accepted in options array :
-// key, label, default
+// key, label, default, password
 function lanorg_text_field_html($options, $value, $prefix, $error) {
 	$markup = '';
 	$key = $prefix . $options['key'];
@@ -191,8 +191,10 @@ function lanorg_text_field_html($options, $value, $prefix, $error) {
 	return $markup;
 }
 
-// TODO: Select field
-function lanorg_select_field_html($options, $value, $prefix, $choices) {
+// Select field
+// Parameters accepted in options array :
+// key, label, default, choices
+function lanorg_select_field_html($options, $value, $prefix) {
 	$markup = '';
 	$key = $prefix . $options['key'];
 	$css_classes = 'lanorg-field lanorg-select';
@@ -212,14 +214,14 @@ function lanorg_select_field_html($options, $value, $prefix, $choices) {
 	$markup .= 'name="' . $key . '" ';
 	$markup .= 'class="' . $css_classes . '"/>';
 	
-	foreach($choices as $choice)
+	foreach ($choices as $choice => $choiceText)
 	{
 		$markup .= '<option value="'.$choice.'" ';
 		if($choice === $value)
 		{
 			$markup .= 'selected="selected"';
 		}
-		$markup .= '>'.$choice.'</option>';
+		$markup .= '>'.$choiceText.'</option>';
 	}
 	if ($value !== NULL) {
 		$markup .= 'value="' . htmlentities($value, NULL, 'UTF-8') . '" ';
