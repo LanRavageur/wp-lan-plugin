@@ -137,7 +137,7 @@ function lanorg_login_user(&$error_message = '')
 			);
 			$user = wp_signon($user_info);
 			if(!is_wp_error($user)){
-				//wp_redirect(home_url());
+				wp_redirect(home_url());
 				$success = TRUE;				
 			}
 			else{
@@ -166,7 +166,7 @@ function lanorg_process_registration_form()
 					'user_pass' => $values['password'],
 				));
 
-				//wp_redirect(home_url());
+				wp_redirect(home_url());
 				exit;
 			}
 		}
