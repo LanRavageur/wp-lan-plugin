@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-19 13:18-0500\n"
-"PO-Revision-Date: 2012-03-19 13:21-0500\n"
+"PO-Revision-Date: 2012-03-19 13:28-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -105,7 +105,7 @@ msgstr "Soldat Battlefield 3"
 #: ../lanorg-contactMethods.php:15
 #: ../lanorg-profile.php:27
 msgid "Battle.net Account"
-msgstr "Compte Steam"
+msgstr "Compte Battle.net"
 
 #: ../lanorg-contactMethods.php:17
 #: ../lanorg-profile.php:32
@@ -124,7 +124,7 @@ msgstr "(sans @)"
 #: ../lanorg-contactMethods.php:19
 #: ../lanorg-profile.php:42
 msgid "Youtube Account"
-msgstr "Compte Steam"
+msgstr "Compte Youtube"
 
 #: ../lanorg-form.php:355
 msgid "This field is required."
