@@ -270,6 +270,9 @@ function lanorg_select_field_html($options, $value, $prefix) {
 	$key = $prefix . $options['key'];
 	$css_classes = 'lanorg-field lanorg-select';
 	$choices = $options['choices'];
+	if (is_string($choices)) {
+		$choices = call_user_func($choices, $options, $value);
+	}
 
 	if ($value !== NULL) {
 		if (!isset($choices[$value])) {
