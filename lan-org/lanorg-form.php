@@ -35,32 +35,40 @@ function lanorg_form($fields, &$values = array(), &$errors = array(), $renderer=
 function lanorg_form_post($fields, &$values, $prefix) {
 	global $lanorg_field_validators;
 
-	$complete = TRUE;
-	foreach ($fields as $field) {
-		$key = $field['key'];
-		$type = $field['type'];
+	$token = isset($_POST[$prefix . 'token']) ? $_POST[$prefix . 'token'] : '';
 
-		$name_attr = $prefix . $key;
-		$value = NULL;
-		if (isset($values[$key])) {
-			$value = $values[$key];
-		}
+	if (wp_verify_nonce($token, $prefix . 'token'))
+	{
+		$complete = TRUE;
+		foreach ($fields as $field) {
+			$key = $field['key'];
+			$type = $field['type'];
 
-		if (isset($_POST[$name_attr])) {
-			$value = $_POST[$name_attr];
-		}
-		if (isset($lanorg_field_validators[$type])) {
-			$validator = $lanorg_field_validators[$type];
-			// If the validator returns false, then the POST field is incomplete
-			if (!call_user_func($validator, $options, &$value)) {
+			$name_attr = $prefix . $key;
+			$value = NULL;
+			if (isset($values[$key])) {
+				$value = $values[$key];
+			}
+
+			if (isset($_POST[$name_attr])) {
+				$value = $_POST[$name_attr];
+			}
+			if (isset($lanorg_field_validators[$type])) {
+				$validator = $lanorg_field_validators[$type];
+				// If the validator returns false, then the POST field is incomplete
+				if (!call_user_func($validator, $options, &$value)) {
+					$complete = FALSE;
+				}
+			}
+			elseif (!isset($_POST[$name_attr])) {
+				// By default, missing fields doesn't validate
 				$complete = FALSE;
 			}
+			$values[$key] = $value;
 		}
-		elseif (!isset($_POST[$name_attr])) {
-			// By default, missing fields doesn't validate
-			$complete = FALSE;
-		}
-		$values[$key] = $value;
+	}
+	else {
+		$complete = FALSE;
 	}
 	return $complete;
 }
@@ -101,6 +109,8 @@ function lanorg_form_html_as_p($fields, $values, $prefix='', $errors=array()) {
 			$markup .= '</p>';
 		}
 	}
+
+	$markup .= wp_nonce_field($prefix . 'token', $prefix . 'token', FALSE, FALSE);
 
 	return $markup;
 }
@@ -150,6 +160,9 @@ function lanorg_form_html_as_table($fields, $values, $prefix='', $errors=array()
 	}
 
 	$markup .= '</table>';
+
+	$markup .= wp_nonce_field($prefix . 'token', $prefix . 'token', FALSE, FALSE);
+
 	return $markup;
 }
 
