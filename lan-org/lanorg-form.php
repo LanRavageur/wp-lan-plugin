@@ -354,7 +354,7 @@ function lanorg_validate_checkbox($options, &$value) {
 
 // Checks if the field is empty
 function lanorg_validate_empty($options, $value, &$errors) {
-	if (empty($value)) {
+	if (empty($value) && $value !== '0') {
 		array_push($errors, __('This field is required.', 'lanorg'));
 	}
 }
