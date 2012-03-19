@@ -3,6 +3,7 @@
 require_once('lanorg-admin-list.php');
 
 $lanorg_tournament_form = NULL;
+$lanorg_event_form = NULL;
 
 function lanorg_init_tournament_form() {
 	global $lanorg_tournament_form;
@@ -29,8 +30,30 @@ function lanorg_init_tournament_form() {
 			'key' => 'allow_teams',
 			'text' => __('Enable teams', 'lanorg'),
 			'default' => FALSE,
-		)
+		),
+	);
+}
 
+function lanorg_init_event_form() {
+	global $lanorg_event_form;
+
+	$lanorg_event_form = array(
+		array(
+			'type' => 'text',
+			'key' => 'title',
+			'label' => __('Title', 'lanorg'),
+			'validator' => 'empty',
+		),
+		array(
+			'type' => 'text',
+			'key' => 'date',
+			'label' => __('Date', 'lanorg'),
+		),
+		array(
+			'type' => 'text',
+			'key' => 'location',
+			'label' => __('Location', 'lanorg'),
+		),
 	);
 }
 
@@ -52,6 +75,7 @@ function lanorg_get_admin_footer() {
 function lanorg_get_admin_tabs($current) {
 	$tabs = array(
 		'lanorg' => 'Configuration',
+		'lanorg-events' => 'Events',
 		'lanorg-tournaments' => 'Tournaments',
 	);
 
@@ -90,6 +114,37 @@ function lanorg_admin_tournaments() {
 		));
 
 	$table->set_title_column('game');
+
+	$table->run_action();
+	$table->prepare_items();
+
+	$table->display();
+
+	lanorg_get_admin_footer();
+}
+
+function lanorg_admin_events() {
+	global $lanorg_event_form;
+
+	lanorg_init_event_form();
+
+	lanorg_get_admin_header('Events', TRUE);
+
+	lanorg_get_admin_tabs('lanorg-events');
+
+	$table = new LanOrgListTable(array(
+			'singular'  => __('event', 'lanorg'),
+			'plural'    => __('events', 'lanorg'),
+			'columns' 	=> array(
+				'title'		=> __('Title', 'lanorg'),
+				'date' 		=> __('Date', 'lanorg'),				
+				'location'=> __('Location', 'lanorg'),
+			),
+			'table_name'=> 'lanorg_events',
+			'form' => $lanorg_event_form,
+		));
+
+	$table->set_title_column('title');
 
 	$table->run_action();
 	$table->prepare_items();

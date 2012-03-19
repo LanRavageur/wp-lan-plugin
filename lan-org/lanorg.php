@@ -98,6 +98,9 @@ class LanOrg {
 		add_submenu_page('lanorg', 'Configuration', 'Configuration', 'manage_options',
 			'lanorg', 'lanorg_admin_settings');
 
+		add_submenu_page('lanorg', 'Events', 'Events', 'manage_options',
+			'lanorg-events', 'lanorg_admin_events');
+
 		add_submenu_page('lanorg', 'Tournaments', 'Tournaments', 'manage_options',
 			'lanorg-tournaments', 'lanorg_admin_tournaments');
 	}
@@ -130,11 +133,22 @@ class LanOrg {
 		$table_name = $wpdb->prefix . 'lanorg_tournaments';
 		$stmt =
 "CREATE TABLE $table_name (
-  id smallint(5) NOT NULL AUTO_INCREMENT,
+  id SMALLINT(5) NOT NULL AUTO_INCREMENT,
 	game TINYTEXT NOT NULL,
 	publisher TINYTEXT NOT NULL,
 	platform TINYTEXT NOT NULL,
 	allow_teams TINYINT(1) NOT NULL,
+	UNIQUE KEY id (id)
+);";
+		dbDelta($stmt);
+
+		$table_name = $wpdb->prefix . 'lanorg_events';
+		$stmt =
+"CREATE TABLE $table_name (
+  id SMALLINT(5) NOT NULL AUTO_INCREMENT,
+	title TINYTEXT NOT NULL,
+	date DATE NOT NULL,
+	location TINYTEXT NOT NULL,
 	UNIQUE KEY id (id)
 );";
 		dbDelta($stmt);
