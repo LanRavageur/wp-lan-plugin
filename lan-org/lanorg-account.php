@@ -9,31 +9,31 @@ function lanorg_init_form() {
 		array(
 			'type' => 'text',
 			'key' => 'nickname',
-			'label' => __('Choose a nickname :', 'lanorg'),
+			'label' => __('Choose a nickname', 'lanorg'),
 			'validator' => array('empty', 'username_exists', 'username_valid'),
 		),
 		array(
 			'type' => 'text',
 			'key' => 'firstname',
-			'label' => __('First name :', 'lanorg'),
+			'label' => __('First name', 'lanorg'),
 			'validator' => 'empty',
 		),
 		array(
 			'type' => 'text',
 			'key' => 'lastname',
-			'label' => __('Name :', 'lanorg'),
+			'label' => __('Name', 'lanorg'),
 			'validator' => 'empty',
 		),
 		array(
 			'type' => 'text',
 			'key' => 'email',
-			'label' => __('Email :', 'lanorg'),
+			'label' => __('Email', 'lanorg'),
 			'validator' => array('empty', 'email_exists', 'email_valid'),
 		),
 		array(
 			'type' => 'text',
 			'key' => 'password',
-			'label' => __('Password :', 'lanorg'),
+			'label' => __('Password', 'lanorg'),
 			'password' => true,
 			'validator' => 'empty',
 		),
@@ -46,13 +46,13 @@ $lanorg_login_form = array(
 	array(
 		'type' => 'text',
 		'key' => 'username-or-email',
-		'label' => __('Email :', 'lanorg'),
+		'label' => __('Email', 'lanorg'),
 		'validator' => array('empty'),
 	),
 	array(
 		'type' => 'text',
 		'key' => 'password',
-		'label' => __('Password :', 'lanorg'),
+		'label' => __('Password', 'lanorg'),
 		'password' => true,
 		'validator' => 'empty',
 	)
