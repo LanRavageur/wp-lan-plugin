@@ -305,7 +305,7 @@ function lanorg_select_field_html($options, $value, $prefix) {
 	foreach ($choices as $choice => $choiceText)
 	{
 		$markup .= '<option value="'.$choice.'" ';
-		if($choice === $value)
+		if($choice == $value)
 		{
 			$markup .= 'selected="selected"';
 		}
