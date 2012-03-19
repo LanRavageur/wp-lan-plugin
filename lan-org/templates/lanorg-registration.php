@@ -1,7 +1,9 @@
 <?php
-global $lanOrg;
+global $lanOrg, $page_title;
 
 $lanOrg->require_login();
+
+$page_title = 'Admission';
 
 ?>
 <h1 style="clear: none;" class="entry-title">Confirmer sa présence</h1>
