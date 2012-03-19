@@ -34,8 +34,6 @@ function lanorg_init_tournament_form() {
 	);
 }
 
-add_action('init', 'lanorg_init_tournament_form');
-
 // Get admin header & footer HTML code
 function lanorg_get_admin_header($title, $add_new_link=FALSE) {
 	echo '<div class="wrap">';
@@ -71,6 +69,8 @@ function lanorg_admin_settings() {
 
 function lanorg_admin_tournaments() {
 	global $lanorg_tournament_form;
+
+	lanorg_init_tournament_form();
 
 	lanorg_get_admin_header('Tournaments', TRUE);
 
