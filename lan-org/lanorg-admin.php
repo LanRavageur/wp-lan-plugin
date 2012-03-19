@@ -5,10 +5,30 @@ require_once('lanorg-admin-list.php');
 $lanorg_tournament_form = NULL;
 $lanorg_event_form = NULL;
 
+function lanorg_get_events() {
+	global $wpdb;
+
+	$table_name = $wpdb->prefix . 'lanorg_events';
+
+	$events = $wpdb->get_results("SELECT id, title FROM $table_name", ARRAY_A);
+	foreach ($events as $id => $event) {
+		$events[$id] = $event['title'];
+	}
+
+	return $events;
+}
+
 function lanorg_init_tournament_form() {
 	global $lanorg_tournament_form;
 
 	$lanorg_tournament_form = array(
+		array(
+			'type' => 'select',
+			'key' => 'event_id',
+			'label' => __('Event', 'lanorg'),
+			'choices' => 'lanorg_get_events',
+			'validator' => 'empty',
+		),
 		array(
 			'type' => 'text',
 			'key' => 'game',

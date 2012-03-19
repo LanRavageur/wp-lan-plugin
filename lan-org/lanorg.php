@@ -130,18 +130,6 @@ class LanOrg {
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'lanorg_tournaments';
-		$stmt =
-"CREATE TABLE $table_name (
-  id SMALLINT(5) NOT NULL AUTO_INCREMENT,
-	game TINYTEXT NOT NULL,
-	publisher TINYTEXT NOT NULL,
-	platform TINYTEXT NOT NULL,
-	allow_teams TINYINT(1) NOT NULL,
-	UNIQUE KEY id (id)
-);";
-		dbDelta($stmt);
-
 		$table_name = $wpdb->prefix . 'lanorg_events';
 		$stmt =
 "CREATE TABLE $table_name (
@@ -152,6 +140,20 @@ class LanOrg {
 	UNIQUE KEY id (id)
 );";
 		dbDelta($stmt);
+
+		$table_name = $wpdb->prefix . 'lanorg_tournaments';
+		$stmt =
+"CREATE TABLE $table_name (
+  id SMALLINT(5) NOT NULL AUTO_INCREMENT,
+  event_id SMALLINT(5) NOT NULL,
+	game TINYTEXT NOT NULL,
+	publisher TINYTEXT NOT NULL,
+	platform TINYTEXT NOT NULL,
+	allow_teams TINYINT(1) NOT NULL,
+	UNIQUE KEY id (id)
+);";
+		dbDelta($stmt);
+
 
 	}
 
