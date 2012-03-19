@@ -18,9 +18,10 @@ if (!defined('ABSPATH')) {
 if (!class_exists('lanOrg')) :
 
 require('lanorg-form.php');
+require('lanorg-event.php');
+require('lanorg-admin.php');
 require('lanorg-account.php');
 require('lanorg-registration.php');
-require('lanorg-admin.php');
 require('lanorg-contactMethods.php');
 require('lanorg-profile.php');
 
@@ -154,7 +155,14 @@ class LanOrg {
 );";
 		dbDelta($stmt);
 
-
+		$table_name = $wpdb->prefix . 'lanorg_events_users';
+		$stmt =
+"CREATE TABLE $table_name (
+  user_id BIGINT(20) NOT NULL,
+  event_id SMALLINT(5) NOT NULL,
+	UNIQUE KEY event_user_id (user_id,event_id)
+);";
+		dbDelta($stmt);
 	}
 
 	// Called when the plugin is desactivated
@@ -170,7 +178,7 @@ class LanOrg {
 		{
 			switch ($wp_query->query_vars['lanorg_page']) {
 			case 'registration':
-				$this->render_two_column_page('lanorg-registration.php');
+				lanorg_registration_page();
 				break ;
 			case 'live':
 				$this->render_two_column_page('lanorg-live.php');

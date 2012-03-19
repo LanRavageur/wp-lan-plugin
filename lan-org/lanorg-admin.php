@@ -5,6 +5,7 @@ require_once('lanorg-admin-list.php');
 $lanorg_tournament_form = NULL;
 $lanorg_event_form = NULL;
 
+// TODO : Move events and tournaments to seperated files
 function lanorg_get_events() {
 	global $wpdb;
 
