@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-19 13:18-0500\n"
-"PO-Revision-Date: 2012-03-19 13:28-0500\n"
+"PO-Revision-Date: 2012-03-19 13:35-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "Nom d'utilisateur ou mot de passe incorrect"
 #: ../lanorg-admin.php:9
 #: ../lanorg-admin.php:75
 msgid "Game"
-msgstr "Game"
+msgstr "Jeu"
 
 #: ../lanorg-admin.php:15
 #: ../lanorg-admin.php:76

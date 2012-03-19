@@ -2,31 +2,39 @@
 
 require_once('lanorg-admin-list.php');
 
-$lanorg_tournament_form = array(
-	array(
-		'type' => 'text',
-		'key' => 'game',
-		'label' => __('Game', 'lanorg'),
-		'validator' => 'empty',
-	),
-	array(
-		'type' => 'text',
-		'key' => 'publisher',
-		'label' => __('Publisher', 'lanorg'),
-	),
-	array(
-		'type' => 'text',
-		'key' => 'platform',
-		'label' => __('Platform', 'lanorg'),
-	),
-	array(
-		'type' => 'checkbox',
-		'key' => 'allow_teams',
-		'text' => __('Enable teams', 'lanorg'),
-		'default' => FALSE,
-	)
+$lanorg_tournament_form = NULL;
 
-);
+function lanorg_init_tournament_form() {
+	global $lanorg_tournament_form;
+
+	$lanorg_tournament_form = array(
+		array(
+			'type' => 'text',
+			'key' => 'game',
+			'label' => __('Game', 'lanorg'),
+			'validator' => 'empty',
+		),
+		array(
+			'type' => 'text',
+			'key' => 'publisher',
+			'label' => __('Publisher', 'lanorg'),
+		),
+		array(
+			'type' => 'text',
+			'key' => 'platform',
+			'label' => __('Platform', 'lanorg'),
+		),
+		array(
+			'type' => 'checkbox',
+			'key' => 'allow_teams',
+			'text' => __('Enable teams', 'lanorg'),
+			'default' => FALSE,
+		)
+
+	);
+}
+
+add_action('init', 'lanorg_init_tournament_form');
 
 // Get admin header & footer HTML code
 function lanorg_get_admin_header($title, $add_new_link=FALSE) {
