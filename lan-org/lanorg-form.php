@@ -4,9 +4,10 @@
 $lanorg_field_html = array(
 	'text' => 'lanorg_text_field_html',
 	'select' => 'lanorg_select_field_html',
+	'checkbox' => 'lanorg_checkbox_field_html',
 );
 
-$lanorg_field_validators = array(
+$lanorg_custom_validators = array(
 	'empty' => 'lanorg_validate_empty',
 	'username_exists' => 'lanorg_validate_username_exists',
 	'username_valid' => 'lanorg_validate_username_valid',
@@ -14,10 +15,13 @@ $lanorg_field_validators = array(
 	'email_valid' => 'lanorg_validate_email_valid',
 );
 
+$lanorg_field_validators = array(
+	'checkbox' => 'lanorg_validate_checkbox',
+);
+
 // Generate HTML markup for a form
 // The form is validated if it has been correctly submitted
 function lanorg_form($fields, &$values = array(), &$errors = array(), $renderer='lanorg_form_html_as_p') {
-
 	lanorg_form_post($fields, $values, $lanOrg->form_prefix);
 	lanorg_form_validation($fields, $values, $errors);
 
@@ -27,18 +31,31 @@ function lanorg_form($fields, &$values = array(), &$errors = array(), $renderer=
 // Get POST values for each field
 // @return Boolean 
 function lanorg_form_post($fields, &$values, $prefix) {
+	global $lanorg_field_validators;
+
 	$complete = TRUE;
 	foreach ($fields as $field) {
 		$key = $field['key'];
+		$type = $field['type'];
 
 		$name_attr = $prefix . $key;
+		$value = NULL;
 
 		if (isset($_POST[$name_attr])) {
-			$values[$key] = $_POST[$name_attr];
+			$value = $_POST[$name_attr];
 		}
-		else {
+		if (isset($lanorg_field_validators[$type])) {
+			$validator = $lanorg_field_validators[$type];
+			// If the validator returns false, then the POST field is incomplete
+			if (!call_user_func($validator, $options, &$value)) {
+				$complete = FALSE;
+			}
+		}
+		elseif (!isset($_POST[$name_attr])) {
+			// By default, missing fields doesn't validate
 			$complete = FALSE;
 		}
+		$values[$key] = $value;
 	}
 	return $complete;
 }
@@ -103,23 +120,25 @@ function lanorg_form_html_as_table($fields, $values, $prefix='', $errors=array()
 		$field_markup = lanorg_form_field_html($field, $value, $prefix, $error);
 
 		if ($field_markup !== NULL) {
-			$markup .= '<tr valign="top">';
 
 			if ($error !== NULL) {
-				$markup = $error . '<br/>';
+				$markup .= '<tr><td>';
+				$markup .= '<br/>' . $error;
 				$css_classes .= ' lanorg-error';
+				$markup .= '</td></tr>';
 			}
 
+			$markup .= '<tr valign="top">';
 			// Label tag, if supplied
 			if (isset($field['label'])) {
-				$markup .= '<th scope="row">';
+				$markup .= '<th valign="top" scope="row">';
 				$markup .= lanorg_label_html($key, $field['label']);
 				$markup .= '</th>';
 			}
 
-			$markup .= '<th scope="row">';
+			$markup .= '<td>';
 			$markup .= $field_markup;
-			$markup .= '</th>';
+			$markup .= '</td>';
 
 			$markup .= '</tr>';
 		}
@@ -156,7 +175,7 @@ function lanorg_form_field_html($field, $value, $prefix='', &$error) {
 // Values are validated and error are added to the $error array.
 // @return TRUE when no error is found.
 function lanorg_form_validation($fields, $values, &$errors) {
-	global $lanorg_field_validators;
+	global $lanorg_custom_validators;
 
 	foreach ($fields as $field) {
 
@@ -176,9 +195,9 @@ function lanorg_form_validation($fields, $values, &$errors) {
 			// The value passes a series of validations
 			foreach ($validators as $validator) {
 
-				if (isset($lanorg_field_validators[$validator])) {
+				if (isset($lanorg_custom_validators[$validator])) {
 
-					$validator_func = $lanorg_field_validators[$validator];
+					$validator_func = $lanorg_custom_validators[$validator];
 
 					$field_errors = array();
 
@@ -278,7 +297,52 @@ function lanorg_select_field_html($options, $value, $prefix) {
 	return $markup;
 }
 
+// Checkbox
+function lanorg_checkbox_field_html($options, $value, $prefix) {
+	$markup = '';
+	$key = $prefix . $options['key'];
+	$css_classes = 'lanorg-field lanorg-checkbox';
+
+	$checked = FALSE;
+
+	if ($value !== NULL) {
+		$checked = !empty($value);
+	}
+	// Default state
+	if ($value === NULL && isset($options['default'])) {
+		$checked = !!$options['default'];
+	}
+
+	$markup .= '<input type="checkbox" ';
+	$markup .= 'id="' . $key . '" name="' . $key . '" value="1" ';
+	if ($checked) {
+		$markup .= 'checked="checked" ';
+	}
+	$markup .= 'class="' . $css_classes . '"/>';
+
+	if (isset($options['text'])) {
+		$markup .= ' ' . lanorg_label_html($key, $options['text']);
+	}
+
+	return $markup;
+}
+
 // ** Data validation ***********
+
+// Field validators
+
+// Checkboxes can only have '1' or '0'
+function lanorg_validate_checkbox($options, &$value) {
+	if ($value === NULL) {
+		$value = '0';
+	}
+	elseif (!empty($value)) {
+		$value = '1';
+	}
+	return TRUE;
+}
+
+// Custom validators
 
 // Checks if the field is empty
 function lanorg_validate_empty($options, $value, &$errors) {
