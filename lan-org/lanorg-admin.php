@@ -6,13 +6,18 @@ $lanorg_tournament_form = array(
 	array(
 		'type' => 'text',
 		'key' => 'game',
-		'label' => __('Game :', 'lanorg'),
+		'label' => __('Game', 'lanorg'),
 		'validator' => 'empty',
 	),
 	array(
 		'type' => 'text',
 		'key' => 'publisher',
-		'label' => __('Publisher :', 'lanorg'),
+		'label' => __('Publisher', 'lanorg'),
+	),
+	array(
+		'type' => 'text',
+		'key' => 'platform',
+		'label' => __('Platform', 'lanorg'),
 	),
 	array(
 		'type' => 'checkbox',
@@ -20,6 +25,7 @@ $lanorg_tournament_form = array(
 		'text' => __('Enable teams', 'lanorg'),
 		'default' => FALSE,
 	)
+
 );
 
 // Get admin header & footer HTML code
@@ -27,7 +33,7 @@ function lanorg_get_admin_header($title, $add_new_link=FALSE) {
 	echo '<div class="wrap">';
 	echo '<h2>' . htmlentities($title, NULL, 'UTF-8');
 	if ($add_new_link) {
-		echo '<a href="?page=' . $_REQUEST['page'] . '&action=insert" class="add-new-h2">Add New</a>';
+		echo '<a href="?page=' . $_REQUEST['page'] . '&action=insert" class="add-new-h2">' . __('Add New', 'lanorg') . '</a>';
 	}
 	echo '</h2>';
 }
@@ -63,11 +69,13 @@ function lanorg_admin_tournaments() {
 	lanorg_get_admin_tabs('lanorg-tournaments');
 
 	$table = new LanOrgListTable(array(
-			'singular'  => 'tournament',
-			'plural'    => 'tournaments',
+			'singular'  => __('tournament', 'lanorg'),
+			'plural'    => __('tournaments', 'lanorg'),
 			'columns' 	=> array(
-				'game'			=> 'Game',
-				'publisher' => 'Publisher',
+				'game'			=> __('Game', 'lanorg'),
+				'publisher' => __('Publisher', 'lanorg'),				
+				'platform' => __('Platform', 'lanorg'),
+				'allow_teams' => __('Teams enebled', 'lanorg'),
 			),
 			'table_name'=> 'lanorg_tournaments',
 			'form' => $lanorg_tournament_form,
