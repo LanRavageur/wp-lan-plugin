@@ -22,6 +22,7 @@ require('lanorg-account.php');
 require('lanorg-registration.php');
 require('lanorg-admin.php');
 require('lanorg-contactMethods.php');
+require('lanorg-profile.php');
 
 // Main Object
 class LanOrg {
@@ -106,6 +107,7 @@ class LanOrg {
 
 	function get_query_vars($query_vars) {
 		$query_vars[] = 'lanorg_page';
+		$query_vars[] = 'user_id';
 		return $query_vars;
 	}
 
@@ -114,6 +116,8 @@ class LanOrg {
 			'login/?$' => 'index.php?lanorg_page=login',
 			'registration/?$' => 'index.php?lanorg_page=registration',
 			'live/?$' => 'index.php?lanorg_page=live',
+			'profile/?$' => 'index.php?lanorg_page=profile',
+			'profile/?([0-9]{1,})/?$' => 'index.php?lanorg_page=profile&user_id=' . $wp_rewrite->preg_index(1),
 		);
 		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 	}
@@ -157,6 +161,10 @@ class LanOrg {
 			case 'login':
 				$this->render_custom_page('lanorg-login.php');
 				break ;
+			case 'profile':
+				$user_id = isset($wp_query->query_vars['user_id']) ? $wp_query->query_vars['user_id'] : 0;
+				lanorg_profile_page($user_id);
+				break ;
 			}
 		}
 
@@ -180,7 +188,7 @@ class LanOrg {
 		include($template_file_path);
 	}
 
-	public function get_custom_page_title($title, $sep='', $seplocation='') {
+	public function get_custom_page_title($title, $sep=' | ', $seplocation='') {
 		return $this->page_title . $sep;
 	}
 
@@ -197,16 +205,25 @@ class LanOrg {
 		$this->render_custom_page('lanorg-twocolumn.php');
 	}
 
+	function get_body_class($classes='') {
+		$classes[] = 'singular';
+		return $classes;
+	}
+
 	// Render a given page
 	public function render_custom_page($page_file) {
 		global $wp_query;
 		$wp_query->is_home = FALSE; // Not homepage
+		$wp_query->is_single = TRUE; // Single page
+
+		// Add our custom class to force single column
+		add_filter('body_class', array($this, 'get_body_class'));
 
 		//add_filter('the_title', array($this, 'get_custom_page_title'));
 		add_filter('wp_title', array($this, get_custom_page_title));
 		add_filter('the_content', array($this, 'get_custom_page_content'));
 
-		$GLOBALS['page_title'] = 'abc';
+		$GLOBALS['page_title'] = ''; // This variable is set by the template
 
 		// Turn on output buffering to capture page content
 		ob_start();
