@@ -2,7 +2,9 @@ wp-lan-plugin
 =======
 
 Universal Lan Party Wordpress Plugin.
-This plugin will let you manage Lan Party Events withing wordpress, letting users register to events, 
+This plugin will let you manage Lan Party events within wordpress, letting users register to events and choosing wich game to play during event.
+
+Many cool features will be added in the future.
 
 <http://lanravageur.com>
 <http://lan.aeei.ca>
