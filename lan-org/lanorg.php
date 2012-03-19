@@ -133,6 +133,7 @@ class LanOrg {
   id smallint(5) NOT NULL AUTO_INCREMENT,
 	game TINYTEXT NOT NULL,
 	publisher TINYTEXT NOT NULL,
+	platform TINYTEXT NOT NULL,
 	allow_teams TINYINT(1) NOT NULL,
 	UNIQUE KEY id (id)
 );";
