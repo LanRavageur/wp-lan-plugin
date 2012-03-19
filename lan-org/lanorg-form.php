@@ -22,6 +22,8 @@ $lanorg_field_validators = array(
 // Generate HTML markup for a form
 // The form is validated if it has been correctly submitted
 function lanorg_form($fields, &$values = array(), &$errors = array(), $renderer='lanorg_form_html_as_p') {
+	global $lanOrg;
+
 	lanorg_form_post($fields, $values, $lanOrg->form_prefix);
 	lanorg_form_validation($fields, $values, $errors);
 
@@ -40,6 +42,9 @@ function lanorg_form_post($fields, &$values, $prefix) {
 
 		$name_attr = $prefix . $key;
 		$value = NULL;
+		if (isset($values[$key])) {
+			$value = $values[$key];
+		}
 
 		if (isset($_POST[$name_attr])) {
 			$value = $_POST[$name_attr];
@@ -89,7 +94,7 @@ function lanorg_form_html_as_p($fields, $values, $prefix='', $errors=array()) {
 
 			// Label tag, if supplied
 			if (isset($field['label'])) {
-				$markup .= lanorg_label_html($key, $field['label']);
+				$markup .= lanorg_label_html($prefix . $key, $field['label']);
 			}
 
 			$markup .= $field_markup;
@@ -132,7 +137,7 @@ function lanorg_form_html_as_table($fields, $values, $prefix='', $errors=array()
 			// Label tag, if supplied
 			if (isset($field['label'])) {
 				$markup .= '<th valign="top" scope="row">';
-				$markup .= lanorg_label_html($key, $field['label']);
+				$markup .= lanorg_label_html($prefix . $key, $field['label']);
 				$markup .= '</th>';
 			}
 

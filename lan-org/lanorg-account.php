@@ -110,7 +110,8 @@ function lanorg_shortcode_registration_form($attr) {
 
 function lanorg_login_user(&$error_message = '')
 {
-	global $lanorg_login_form;
+	global $lanorg_login_form, $lanOrg;
+
 	$success = FALSE;
 	$values = array();
 	if (lanorg_form_post($lanorg_login_form, $values, $lanOrg->form_prefix)) {
@@ -143,7 +144,7 @@ function lanorg_login_user(&$error_message = '')
 
 function lanorg_process_registration_form()
 {
-	global $lanorg_signup_form;
+	global $lanorg_signup_form, $lanOrg;
 
 	$values = array();
 
