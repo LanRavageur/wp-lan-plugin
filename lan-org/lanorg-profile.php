@@ -9,32 +9,37 @@ function lanorg_init_profile_form() {
 		array(
 			'type' => 'text',
 			'key' => 'steam_id',
-			'label' => __('Steam ID :', 'lanorg'),
+			'label' => __('Steam Account', 'lanorg'),
 		),
 		array(
 			'type' => 'text',
 			'key' => 'origin_id',
-			'label' => __('Compte EA/Origin :', 'lanorg'),
+			'label' => __('Origin Account', 'lanorg'),
 		),
 		array(
 			'type' => 'text',
 			'key' => 'battlefield3_id',
-			'label' => __('Soldat Battlefield 3 :', 'lanorg'),
+			'label' => __('Battlefield 3 Soldier', 'lanorg'),
+		),
+		array(
+			'type' => 'text',
+			'key' => 'battlenet_id',
+			'label' => __('Battle.net Account', 'lanorg'),
 		),
 		array(
 			'type' => 'text',
 			'key' => 'facebook_id',
-			'label' => __('Compte Facebook :', 'lanorg'),
+			'label' => __('Facebook Username', 'lanorg'),
 		),
 		array(
 			'type' => 'text',
 			'key' => 'twitter_id',
-			'label' => __('Compte Twitter :', 'lanorg'),
+			'label' => __('Twitter Username', 'lanorg'),
 		),
 		array(
 			'type' => 'text',
 			'key' => 'youtube_id',
-			'label' => __('Compte YouTube :', 'lanorg'),
+			'label' => __('Youtube Account', 'lanorg'),
 		),
 	);
 }
