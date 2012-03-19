@@ -311,9 +311,6 @@ function lanorg_select_field_html($options, $value, $prefix) {
 		}
 		$markup .= '>' . htmlentities($choiceText, NULL, 'UTF-8') . '</option>';
 	}
-	if ($value !== NULL) {
-		$markup .= 'value="' . htmlentities($value, NULL, 'UTF-8') . '" ';
-	}
 	$markup .= '</select>';
 	return $markup;
 }

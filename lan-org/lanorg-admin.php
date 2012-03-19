@@ -11,9 +11,10 @@ function lanorg_get_events() {
 
 	$table_name = $wpdb->prefix . 'lanorg_events';
 
-	$events = $wpdb->get_results("SELECT id, title FROM $table_name", ARRAY_A);
-	foreach ($events as $id => $event) {
-		$events[$id] = $event['title'];
+	$event_list = $wpdb->get_results("SELECT id, title FROM $table_name", ARRAY_A);
+	$events = array();
+	foreach ($event_list as $event) {
+		$events[$event['id']] = $event['title'];
 	}
 
 	return $events;
