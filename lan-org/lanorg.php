@@ -183,6 +183,15 @@ class LanOrg {
 	UNIQUE KEY id (id)
 );";
 		dbDelta($stmt);
+
+		$table_name = $wpdb->prefix . 'lanorg_teams_users';
+		$stmt =
+"CREATE TABLE $table_name (
+  team_id MEDIUMINT(5) NOT NULL AUTO_INCREMENT,
+  user_id BIGINT(20) NOT NULL,
+	UNIQUE KEY id (team_id,user_id)
+);";
+		dbDelta($stmt);
 	}
 
 	// Called when the plugin is desactivated
