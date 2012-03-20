@@ -58,6 +58,17 @@ $lanorg_login_form = array(
 	)
 );
 
+// Return an associative array that contains user id as key and user name as value.
+function lanorg_get_user_list() {
+	$user_list = array();
+
+	$users = get_users();
+	foreach ($users as $user) {
+		$user_list[$user->ID] = $user->user_login;
+	}
+	return $user_list;
+}
+
 // Get the HTML markup for the registration form
 // Called from the template
 function lanorg_get_signup_form_markup()
