@@ -17,7 +17,7 @@ function lanorg_get_registration_form() {
 		$field = array(
 			'type' => 'checkbox',
 			'key' => 'event-' . $event_id,
-			'label' => $event_title,
+			'text' => $event_title,
 		);
 		array_push($fields, $field);
 	}
