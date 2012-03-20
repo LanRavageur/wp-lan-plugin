@@ -12,6 +12,14 @@ $page_title = __('Teams', 'lanorg');
 <h2 style="clear: none;"><?php echo htmlentities($event->title, NULL, 'UTF-8'); ?></h2>
 <?php foreach ($event->tournaments as $tournament) { ?>
 <h3 style="clear: none;"><?php echo htmlentities($tournament->game, NULL, 'UTF-8'); ?></h3>
+<?php foreach ($tournament->teams as $team) { ?>
+
+<?php echo lanorg_display_team($team); ?>
+
 <?php } ?>
+
+<div style="clear: both;"></div>
+<?php } ?>
+
 <?php } ?>
 </form>

@@ -47,3 +47,190 @@ ul.lanorg-menu li.lanorg-menu-title {
 ul.lanorg-menu li.lanorg-menu-title a {
   color: #000;
 }
+
+table.lanorg-team-list {
+  font: 16px Arial;
+  margin: 5px 5px 0 0;
+  float: left;
+}
+
+table.lanorg-team-list .lanorg-button {
+  border: 0;
+  height: 22px;
+  display: inline-block;
+  float: right;
+  background-color: transparent;
+  border-bottom: 1px solid #ad6d2b;
+  border-right: 1px solid #ad6d2b;
+  border-top: 1px solid #ffb971;
+  border-left: 1px solid #ffb971;
+  text-decoration: underline;
+  color: #fff;
+  padding: 0 5px;
+  text-transform: uppercase;
+  font: 12px Arial;
+  cursor: pointer;
+  text-shadow: rgba(0, 0, 0, 0.3) 1px 1px 0;
+}
+
+table.lanorg-team-list .lanorg-text {
+  font: 12px Arial;
+  border: 0;
+  background: transparent;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: #403e27;
+  box-shadow: none;
+  width: 70%;
+  height: 100%;
+}
+
+table.lanorg-team-list td .lanorg-button {
+  text-shadow: 0 0 0;
+}
+
+table.lanorg-team-list .lanorg-button:active {
+  border-top: 1px solid #ad6d2b;
+  border-left: 1px solid #ad6d2b;
+  border-bottom: 1px solid #ffb971;
+  border-right: 1px solid #ffb971;
+}
+
+table.lanorg-team-list tr.header th {
+  background-image: url(../images/table-header.png);
+  background-repeat: repeat-x;
+  height: 30px;
+  text-align: left;
+  color: #ffffff;
+  text-shadow: rgba(0, 0, 0, 0.3) 1px 1px 0;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+table.lanorg-team-list tr.header th.left, table.lanorg-team-list tr.header th.right {
+  width: 1px;
+  padding: 0;
+}
+
+table.lanorg-team-list tr.header th {
+  padding: 0 0 0 11px;
+  height: 30px;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+table.lanorg-team-list tr.header th span {
+  line-height: 24px;
+}
+
+table.lanorg-team-list td {
+  background: url(../images/table-header.png) repeat-x;
+  height: 26px;
+  font-weight: bold;
+  text-align: left;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+table.lanorg-team-list td.left, table.lanorg-team-list td.right {
+  padding: 0;
+}
+
+table.lanorg-team-list td {
+  text-align: left;
+  padding: 0 0 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+table.lanorg-team-list td a {
+  color: inherit;
+}
+
+table.lanorg-team-list tr.selected td {
+  background-position: 0 -232px;
+  text-shadow: 0 0 4px #c7c7c7;
+  color: #000000;
+  overflow: hidden;
+}
+
+table.lanorg-team-list.blue td.left, table.lanorg-team-list.blue td.right {
+  background: #c0ced6;
+}
+
+table.lanorg-team-list.blue td {
+  color: #273640;
+  background-position: 0 -180px;
+}
+
+table.lanorg-team-list.blue tr.header th.left {
+  background-position: 0 0;
+}
+
+table.lanorg-team-list.blue tr.header th {
+  background-position: 0 -30px;
+}
+
+table.lanorg-team-list.blue tr.header th.right {
+  background-position: 0 -60px;
+}
+
+table.lanorg-team-list.red td.left, table.lanorg-team-list.red td.right {
+  background: #d7c0c0;
+}
+
+table.lanorg-team-list.red td {
+  color: #402727;
+  background-position: 0 -206px;
+}
+
+table.lanorg-team-list.red tr.header th.left {
+  background-position: 0 -90px;
+}
+
+table.lanorg-team-list.red tr.header th {
+  background-position: 0 -120px;
+}
+
+table.lanorg-team-list.red tr.header th.right {
+  background-position: 0 -150px;
+}
+
+table.lanorg-team-list.orange td.left, table.lanorg-team-list.orange td.right {
+  background: #cdccb8;
+}
+
+table.lanorg-team-list.orange td {
+  color: #403e27;
+  background-position: 0 -348px;
+}
+
+table.lanorg-team-list.orange td .lanorg-button {
+  color: #403e27;
+  border-top: 1px solid #c3c37f;
+  border-left: 1px solid #c3c37f;
+  border-bottom: 1px solid #74744c;
+  border-right: 1px solid #74744c;
+  background-color: #dfdecc;
+  font-size: 9px;
+  height: 16px;
+  margin-right: 4px;
+  color: #4a4942;
+  text-decoration: none;
+}
+
+table.lanorg-team-list.orange tr.header th.left {
+  background-position: 0 -288px;
+}
+
+table.lanorg-team-list.orange tr.header th {
+  background-position: 0 -258px;
+}
+
+table.lanorg-team-list.orange tr.header th.right {
+  background-position: 0 -318px;
+}

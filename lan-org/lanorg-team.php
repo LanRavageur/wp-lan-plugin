@@ -28,13 +28,8 @@ class LanOrgTeamListTable extends LanOrgListTable {
 		$form = array();
 
 		$table_name = $wpdb->prefix . 'lanorg_teams_users';
-		$user_table_name = $wpdb->prefix . 'users';
 
-		$team_users = $wpdb->get_results(
-			"SELECT user_id, " .
-			"(SELECT user_login FROM $user_table_name WHERE ID = user_id) as username " .
-			"FROM $table_name WHERE team_id = $this->id"
-		);
+		$team_users = lanorg_get_team_users($this->id);
 
 		foreach ($team_users as $user) {
 			array_push($form, array(
@@ -100,11 +95,9 @@ class LanOrgTeamListTable extends LanOrgListTable {
 
 				// Remove every checked user
 				$team_users = lanorg_get_team_users($this->id);
-				print_r($values);
-				foreach ($team_users as $user_id) {
-					if ($values['user-' . $user_id]) {
-						echo 'REMOVE ' . $user_id;
-						lanorg_leave_team($this->id, $user_id);
+				foreach ($team_users as $user) {
+					if ($values['user-' . $user->user_id]) {
+						lanorg_leave_team($this->id, $user->user_id);
 					}
 				}
 
@@ -197,8 +190,25 @@ function lanorg_get_team_users($team_id) {
 
 	$team_id = (int) $team_id;
 	$table_name = $wpdb->prefix . 'lanorg_teams_users';
+	$user_table_name = $wpdb->prefix . 'users';
 
-	return $wpdb->get_col("SELECT user_id FROM $table_name WHERE team_id = $team_id", 0);
+	$team_users = $wpdb->get_results(
+		"SELECT user_id, " .
+		"(SELECT user_login FROM $user_table_name WHERE ID = user_id) as username " .
+		"FROM $table_name WHERE team_id = $team_id"
+	);
+	return $team_users;
+}
+
+// Return all teams for a tournament
+function lanorg_get_teams($tournament_id) {
+	global $wpdb;
+
+	$team_id = (int) $team_id;
+	$table_name = $wpdb->prefix . 'lanorg_teams';
+
+	$team_users = $wpdb->get_results("SELECT * FROM $table_name WHERE tournament_id = $tournament_id");
+	return $team_users;
 }
 
 
@@ -209,11 +219,97 @@ function lanorg_team_page() {
 
 	foreach ($lan_events as $event) {
 		$event->tournaments = lanorg_get_tournaments($event->id);
+
+		foreach ($event->tournaments as $tournament) {
+			$tournament->teams = lanorg_get_teams($tournament->id);
+
+			foreach ($tournament->teams as $team) {
+				$team->users = lanorg_get_team_users($team->id);
+			}
+			//lanorg_get_team_users($tournament->id);
+		}
 	}
 
 	$GLOBALS['lan_events'] = $lan_events;
 
 	$lanOrg->render_two_column_page('lanorg-team.php');
+}
+
+// Display team table HTML markup
+function lanorg_display_team($team) {
+	$current_user_id = get_current_user_id();
+
+	$user_in_team = FALSE;
+	$is_manager = $team->owner_id == $current_user_id;
+	$can_invite = $is_manager;
+
+	// Check if the user is in the team
+	foreach ($team->users as $user) {
+		if ($user->user_id == $current_user_id) {
+			$user_in_team = TRUE;
+			break ;
+		}
+	}
+
+	echo	'<table class="lanorg-team-list orange" cellspacing="0" cellpadding="0" border="0" style="width: 250px;">' .
+				'<thead>' .
+				'<tr class="header">' .
+				'<th class="left"></th>' .
+				'<th><span>' . htmlentities($team->name, NULL, 'UTF-8') . '</span>';
+
+	echo	'<th>';
+	if ($user_in_team) {
+		echo	'<input type="button" class="lanorg-button" value="Partir"/></th>';
+	}
+	else {
+		echo	'<input type="button" class="lanorg-button" value="Rejoindre"/></th>';
+	}
+
+	echo	'</th><th class="right"></th>' .
+				'</tr>' .
+				'</thead>',
+				'<tbody>';
+	foreach ($team->users as $user) {
+		echo 	'<tr class="row">' .
+					'<td class="left"></td>' .
+					'<td><a href="' . lanorg_get_user_profile_url($user->user_id) . '"><span>' .
+					htmlentities($user->username, NULL, 'UTF-8') . '</span></a>' .
+					'</td><td>';
+
+		if ($is_manager) {
+			echo	'<input type="button" class="lanorg-button" value="Expulser"/></td>';
+		}
+
+		echo	'</td><td class="right"></td>' .
+					'</tr>';
+	}
+
+	if ($can_invite) {
+		echo 	'<tr>' .
+					'<td class="left"></td>' .
+					'<td><input type="text" class="lanorg-text" placeholder="Add a new user..."/></td>';
+		echo	'<td><input type="button" class="lanorg-button" value="Inviter"/></td>';
+		echo	'<td class="right"></td>' .
+					'</tr>';
+	}
+	echo 	'</tbody>' .
+				'</table>';
+/*
+<tbody>
+<tr class="row">
+<td class="left"></td>
+<td>Les loups</td>
+<td class="right"></td>
+</tr>
+<tr class="row">
+<td class="left"></td>
+<td>Les loups</td>
+<td class="right"></td>
+</tr>
+</tbody>
+</table>
+*/
+
 }
 
 // Return url to teams management page
