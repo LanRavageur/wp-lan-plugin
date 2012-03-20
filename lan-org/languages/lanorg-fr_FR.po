@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 13:18-0500\n"
-"PO-Revision-Date: 2012-03-19 13:35-0500\n"
+"POT-Creation-Date: 2012-03-19 19:26-0500\n"
+"PO-Revision-Date: 2012-03-19 19:27-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -42,40 +42,67 @@ msgstr "Mot de passe"
 msgid "Username or password incorrect"
 msgstr "Nom d'utilisateur ou mot de passe incorrect"
 
-#: ../lanorg-admin.php:9
-#: ../lanorg-admin.php:75
+#: ../lanorg-admin.php:30
+msgid "Event"
+msgstr "Évènement"
+
+#: ../lanorg-admin.php:37
+#: ../lanorg-admin.php:129
 msgid "Game"
 msgstr "Jeu"
 
-#: ../lanorg-admin.php:15
-#: ../lanorg-admin.php:76
+#: ../lanorg-admin.php:43
+#: ../lanorg-admin.php:130
 msgid "Publisher"
 msgstr "Éditeur"
 
-#: ../lanorg-admin.php:20
-#: ../lanorg-admin.php:77
+#: ../lanorg-admin.php:48
+#: ../lanorg-admin.php:131
 msgid "Platform"
 msgstr "Platforme"
 
-#: ../lanorg-admin.php:25
+#: ../lanorg-admin.php:53
 msgid "Enable teams"
 msgstr "Activer les équipes"
 
-#: ../lanorg-admin.php:36
+#: ../lanorg-admin.php:66
+#: ../lanorg-admin.php:161
+msgid "Title"
+msgstr "Titre"
+
+#: ../lanorg-admin.php:72
+#: ../lanorg-admin.php:162
+msgid "Date"
+msgstr "Date"
+
+#: ../lanorg-admin.php:77
+#: ../lanorg-admin.php:163
+msgid "Location"
+msgstr "Lieu"
+
+#: ../lanorg-admin.php:87
 msgid "Add New"
 msgstr "Ajouter un nouveau"
 
-#: ../lanorg-admin.php:72
+#: ../lanorg-admin.php:126
 msgid "tournament"
 msgstr "tournois"
 
-#: ../lanorg-admin.php:73
+#: ../lanorg-admin.php:127
 msgid "tournaments"
 msgstr "tournois"
 
-#: ../lanorg-admin.php:78
+#: ../lanorg-admin.php:132
 msgid "Teams enebled"
 msgstr "Équipes activées"
+
+#: ../lanorg-admin.php:158
+msgid "event"
+msgstr "évènement"
+
+#: ../lanorg-admin.php:159
+msgid "events"
+msgstr "évènements"
 
 #: ../lanorg-contactMethods.php:12
 #: ../lanorg-profile.php:12
@@ -126,23 +153,23 @@ msgstr "(sans @)"
 msgid "Youtube Account"
 msgstr "Compte Youtube"
 
-#: ../lanorg-form.php:355
+#: ../lanorg-form.php:368
 msgid "This field is required."
 msgstr "Ce champ est obligatoire."
 
-#: ../lanorg-form.php:362
+#: ../lanorg-form.php:375
 msgid "This nickname already exists."
 msgstr "Ce pseudonyme existe déjà."
 
-#: ../lanorg-form.php:369
+#: ../lanorg-form.php:382
 msgid "This nickname is not valid."
 msgstr "Ce pseudonyme n'est pas valide."
 
-#: ../lanorg-form.php:376
+#: ../lanorg-form.php:389
 msgid "This email is already registered."
 msgstr "Cet adresse courriel est déjà enregistré."
 
-#: ../lanorg-form.php:383
+#: ../lanorg-form.php:396
 msgid "This email is not a valid format."
 msgstr "Cet adresse courriel n'a pas un format valide."
 
