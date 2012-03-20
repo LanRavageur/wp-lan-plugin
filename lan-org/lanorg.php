@@ -27,6 +27,7 @@ require('lanorg-account.php');
 require('lanorg-registration.php');
 require('lanorg-contactMethods.php');
 require('lanorg-profile.php');
+require('lanorg-widget.php');
 
 // Main Object
 class LanOrg {
