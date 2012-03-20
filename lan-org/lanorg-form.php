@@ -330,9 +330,10 @@ function lanorg_checkbox_field_html($options, $value, $prefix) {
 	if ($value === NULL && isset($options['default'])) {
 		$checked = !!$options['default'];
 	}
+	$checked_value = isset($options['value']) ? $options['value'] : '1';
 
 	$markup .= '<input type="checkbox" ';
-	$markup .= 'id="' . $key . '" name="' . $key . '" value="1" ';
+	$markup .= 'id="' . $key . '" name="' . $key . '" value="' . htmlentities($checked_value, NULL, 'UTF-8') . '" ';
 	if ($checked) {
 		$markup .= 'checked="checked" ';
 	}
