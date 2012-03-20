@@ -6,9 +6,10 @@ class LanOrgTeamListTable extends LanOrgListTable {
 	function __construct($options){
 		$this->add_user_form = array(
 			array(
-				'type' => 'text',
+				'type' => 'select',
 				'key' => 'username',
 				'label' => __('User Name', 'lanorg'),
+				'choices' => 'lanorg_get_user_list',
 				'validator' => 'empty',
 			),
 		);
