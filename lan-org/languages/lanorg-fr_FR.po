@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 19:26-0500\n"
-"PO-Revision-Date: 2012-03-19 19:27-0500\n"
+"POT-Creation-Date: 2012-03-19 21:01-0500\n"
+"PO-Revision-Date: 2012-03-19 21:27-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,8 @@ msgid "First name"
 msgstr "Prénom"
 
 #: ../lanorg-account.php:24
+#: ../lanorg-team.php:57
+#: ../lanorg-team.php:84
 msgid "Name"
 msgstr "Nom"
 
@@ -38,69 +40,70 @@ msgstr "Courriel"
 msgid "Password"
 msgstr "Mot de passe"
 
-#: ../lanorg-account.php:138
+#: ../lanorg-account.php:149
 msgid "Username or password incorrect"
 msgstr "Nom d'utilisateur ou mot de passe incorrect"
 
-#: ../lanorg-admin.php:30
+#: ../lanorg-admin.php:28
 msgid "Event"
 msgstr "Évènement"
 
-#: ../lanorg-admin.php:37
-#: ../lanorg-admin.php:129
+#: ../lanorg-admin.php:35
+#: ../lanorg-admin.php:128
 msgid "Game"
 msgstr "Jeu"
 
-#: ../lanorg-admin.php:43
-#: ../lanorg-admin.php:130
+#: ../lanorg-admin.php:41
+#: ../lanorg-admin.php:129
 msgid "Publisher"
 msgstr "Éditeur"
 
-#: ../lanorg-admin.php:48
-#: ../lanorg-admin.php:131
+#: ../lanorg-admin.php:46
+#: ../lanorg-admin.php:130
 msgid "Platform"
 msgstr "Platforme"
 
-#: ../lanorg-admin.php:53
+#: ../lanorg-admin.php:51
 msgid "Enable teams"
 msgstr "Activer les équipes"
 
-#: ../lanorg-admin.php:66
-#: ../lanorg-admin.php:161
+#: ../lanorg-admin.php:64
+#: ../lanorg-admin.php:160
+#: ../lanorg-widget.php:71
 msgid "Title"
 msgstr "Titre"
 
-#: ../lanorg-admin.php:72
-#: ../lanorg-admin.php:162
+#: ../lanorg-admin.php:70
+#: ../lanorg-admin.php:161
 msgid "Date"
 msgstr "Date"
 
-#: ../lanorg-admin.php:77
-#: ../lanorg-admin.php:163
+#: ../lanorg-admin.php:75
+#: ../lanorg-admin.php:162
 msgid "Location"
 msgstr "Lieu"
 
-#: ../lanorg-admin.php:87
+#: ../lanorg-admin.php:85
 msgid "Add New"
 msgstr "Ajouter un nouveau"
 
-#: ../lanorg-admin.php:126
+#: ../lanorg-admin.php:125
 msgid "tournament"
 msgstr "tournois"
 
-#: ../lanorg-admin.php:127
+#: ../lanorg-admin.php:126
 msgid "tournaments"
 msgstr "tournois"
 
-#: ../lanorg-admin.php:132
+#: ../lanorg-admin.php:131
 msgid "Teams enebled"
 msgstr "Équipes activées"
 
-#: ../lanorg-admin.php:158
+#: ../lanorg-admin.php:157
 msgid "event"
 msgstr "évènement"
 
-#: ../lanorg-admin.php:159
+#: ../lanorg-admin.php:158
 msgid "events"
 msgstr "évènements"
 
@@ -172,6 +175,70 @@ msgstr "Cet adresse courriel est déjà enregistré."
 #: ../lanorg-form.php:396
 msgid "This email is not a valid format."
 msgstr "Cet adresse courriel n'a pas un format valide."
+
+#: ../lanorg-team.php:11
+msgid "User Name"
+msgstr "Nom d'utillisateur"
+
+#: ../lanorg-team.php:63
+#: ../lanorg-team.php:85
+msgid "Tournament"
+msgstr "Tournois"
+
+#: ../lanorg-team.php:70
+#: ../lanorg-team.php:86
+msgid "Owner"
+msgstr "Détenteur"
+
+#: ../lanorg-team.php:81
+msgid "team"
+msgstr "équipe"
+
+#: ../lanorg-team.php:82
+msgid "teams"
+msgstr "équipes"
+
+#: ../lanorg-widget.php:15
+msgid "Main LAN Organization widget"
+msgstr "Widget principal LAN Organization"
+
+#: ../lanorg-widget.php:67
+msgid "New title"
+msgstr "Nouveau titre"
+
+#: ../templates/lanorg-registration.php:6
+msgid "Admission"
+msgstr "Admission"
+
+#: ../templates/lanorg-registration.php:9
+msgid "Confirm check in"
+msgstr "Confirmer sa présence"
+
+#: ../templates/lanorg-registration.php:10
+msgid "Choose the event you wish to participate"
+msgstr "Choisissez le ou les évènement dont vous voulez participer"
+
+#: ../templates/lanorg-registration.php:14
+msgid "Register"
+msgstr "S'enregistrer"
+
+#: ../templates/lanorg-team.php:6
+#: ../templates/lanorg-team.php:9
+#: ../templates/lanorg-twocolumn.php:16
+msgid "Teams"
+msgstr "Équipes"
+
+#: ../templates/lanorg-twocolumn.php:13
+msgid "Participate"
+msgstr "Participer"
+
+#: ../templates/lanorg-twocolumn.php:19
+msgid "Tournaments"
+msgstr "Tournois"
+
+#: ../templates/lanorg-twocolumn.php:22
+msgid "Logout"
+msgstr "Déconnexion"
 
 #~ msgid "Options :"
 #~ msgstr "Options :"
