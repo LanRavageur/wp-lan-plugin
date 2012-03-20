@@ -11,6 +11,7 @@ class LanOrgListTable extends WP_List_Table {
 	var $form;
 	var $form_values = array();
 	var $form_errors = array();
+	var $actions;
 	var $show_form = FALSE;
 	var $id = -1;
 
@@ -19,6 +20,7 @@ class LanOrgListTable extends WP_List_Table {
 		$this->columns = $options['columns'];
 		$this->table_name = $options['table_name'];
 		$this->form = $options['form'];
+		$this->actions = $this->get_default_actions();
 		parent::__construct($options);
 	}
 
@@ -27,18 +29,29 @@ class LanOrgListTable extends WP_List_Table {
 		if ($column_name == $this->title_column_key) {
 			// Row actions
 			$hash = wp_create_nonce('tournament' . $item['id']);
-			$actions = array(
-				'edit'      =>	'<a href="?page=' . $_REQUEST['page'] .
-												'&action=edit&id=' . $item['id'] .
-												'">Edit</a>',
-				'delete'    =>	'<a href="?page=' . $_REQUEST['page'] .
-												'&action=delete&id=' . $item['id'] .
-												'&hash=' . $hash . '">Delete</a>',
-			);
 
+			$actions = array();
+			foreach ($this->actions as $action) {
+				$actions[$action['key']] = '<a href="?page=' . $_REQUEST['page'] .
+												'&action=' . $action['key'] . '&id=' . $item['id'] .
+												'">' . $action['name'] . '</a>';
+			}
 			$content .= $this->row_actions($actions);
 		}
 		return $content;
+	}
+
+	function get_default_actions() {
+		return array(
+			array(
+				'key' => 'edit',
+				'name' => 'Edit',
+			),
+			array(
+				'key' => 'delete',
+				'name' => 'Delete',
+			),
+		);
 	}
 
 	function set_title_column($column_key) {
@@ -75,13 +88,7 @@ class LanOrgListTable extends WP_List_Table {
 		global $wpdb, $lanOrg;
 
 		if ($this->show_form) {
-			echo '<form method="POST" action="?page=' . $_REQUEST['page'] . '">';
-			echo '<input type="hidden" name="action" value="edit" />';
-			echo '<input type="hidden" name="id" value="' . (int) $this->id . '" />';
-			echo '<input type="hidden" name="page" value="' . $_REQUEST['page'] . '" />';
-			echo lanorg_form_html_as_table($this->form, $this->form_values, $lanOrg->form_prefix, $this->form_errors);
-			echo '<p class="submit"><input type="submit" class="button-primary" value="Save"/></p>';
-			echo '</form>';
+			$this->display_form();
 		}
 		else {
 			echo '<form method="GET">';
@@ -91,13 +98,32 @@ class LanOrgListTable extends WP_List_Table {
 		}
 	}
 
+	function display_form() {
+		echo $this->get_form_markup($this->form, 'Save', $this->form_values, $this->form_errors);
+	}
+
+	function get_form_markup($form, $button_value, &$values=array(), &$errors=array()) {
+		global $lanOrg;
+		return	'<form method="POST" action="?page=' . $_REQUEST['page'] . '">'
+					. '<input type="hidden" name="action" value="edit" />'
+					. '<input type="hidden" name="id" value="' . (int) $this->id . '" />'
+					. '<input type="hidden" name="page" value="' . $_REQUEST['page'] . '" />'
+					. lanorg_form_html_as_table($form, $values, $lanOrg->form_prefix, $errors)
+					. '<p class="submit"><input type="submit" class="button-primary" value="' . $button_value . '"/></p>'
+					. '</form>';
+	}
+
+	function get_action() {
+		return isset($_REQUEST['action']) ? $_REQUEST['action'] : NULL;
+	}
+
 	// Run action, if any
 	function run_action() {
 		global $wpdb, $lanOrg;
 		// MySQL table name
 		$table_name = $wpdb->prefix . $this->table_name;
 
-		$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : NULL;
+		$action = $this->get_action();
 
 		$this->show_form = FALSE;
 
@@ -112,8 +138,8 @@ class LanOrgListTable extends WP_List_Table {
 			// Handles edit form
 			$this->show_form = TRUE;
 
-
 			// Get form data from HTTP POST
+
 			if (lanorg_form_post($this->form, $this->form_values, $lanOrg->form_prefix)) {
 
 				// Validates data
