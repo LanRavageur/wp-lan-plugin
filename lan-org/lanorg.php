@@ -17,8 +17,11 @@ if (!defined('ABSPATH')) {
 
 if (!class_exists('lanOrg')) :
 
+require('lanorg-admin-list.php');
 require('lanorg-form.php');
 require('lanorg-event.php');
+require('lanorg-tournament.php');
+require('lanorg-team.php');
 require('lanorg-admin.php');
 require('lanorg-account.php');
 require('lanorg-registration.php');
@@ -104,6 +107,9 @@ class LanOrg {
 
 		add_submenu_page('lanorg', 'Tournaments', 'Tournaments', 'manage_options',
 			'lanorg-tournaments', 'lanorg_admin_tournaments');
+
+		add_submenu_page('lanorg', 'Teams', 'Teams', 'manage_options',
+			'lanorg-teams', 'lanorg_admin_team_page');
 	}
 
 	function setup_post_types() {
@@ -119,6 +125,8 @@ class LanOrg {
 		$new_rules = array(
 			'login/?$' => 'index.php?lanorg_page=login',
 			'registration/?$' => 'index.php?lanorg_page=registration',
+			'tournament/?$' => 'index.php?lanorg_page=tournament',
+			'team/?$' => 'index.php?lanorg_page=team',
 			'live/?$' => 'index.php?lanorg_page=live',
 			'profile/?$' => 'index.php?lanorg_page=profile',
 			'profile/?([0-9]{1,})/?$' => 'index.php?lanorg_page=profile&user_id=' . $wp_rewrite->preg_index(1),
@@ -163,6 +171,17 @@ class LanOrg {
 	UNIQUE KEY event_user_id (user_id,event_id)
 );";
 		dbDelta($stmt);
+
+		$table_name = $wpdb->prefix . 'lanorg_teams';
+		$stmt =
+"CREATE TABLE $table_name (
+  id MEDIUMINT(5) NOT NULL AUTO_INCREMENT,
+  owner_id BIGINT(20) NOT NULL,
+  tournament_id SMALLINT(5) NOT NULL,
+	name TINYTEXT NOT NULL,
+	UNIQUE KEY id (id)
+);";
+		dbDelta($stmt);
 	}
 
 	// Called when the plugin is desactivated
@@ -179,6 +198,12 @@ class LanOrg {
 			switch ($wp_query->query_vars['lanorg_page']) {
 			case 'registration':
 				lanorg_registration_page();
+				break ;
+			case 'team':
+				lanorg_team_page();
+				break ;
+			case 'tournament':
+				lanorg_tournament_page();
 				break ;
 			case 'live':
 				$this->render_two_column_page('lanorg-live.php');

@@ -1,7 +1,5 @@
 <?php
 
-require_once('lanorg-admin-list.php');
-
 $lanorg_tournament_form = NULL;
 $lanorg_event_form = NULL;
 
@@ -99,6 +97,7 @@ function lanorg_get_admin_tabs($current) {
 		'lanorg' => 'Configuration',
 		'lanorg-events' => 'Events',
 		'lanorg-tournaments' => 'Tournaments',
+		'lanorg-teams' => 'Teams',
 	);
 
 	echo '<h2 class="nav-tab-wrapper">';

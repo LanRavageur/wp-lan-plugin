@@ -13,10 +13,10 @@ $user = wp_get_current_user();
 <a href="<?php echo lanorg_get_registration_url(); ?>">Confirmer sa présence</a>
 </li>
 <li>
-<a href="#">Équipes</a>
+<a href="<?php echo lanorg_get_team_url(); ?>">Équipes</a>
 </li>
 <li>
-<a href="#">Tournois</a>
+<a href="<?php echo lanorg_get_tournament_url(); ?>">Tournois</a>
 </li>
 <li>
 <a href="#">Déconnexion</a>
