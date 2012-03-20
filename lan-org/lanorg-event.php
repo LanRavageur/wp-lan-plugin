@@ -40,4 +40,13 @@ function lanorg_leave_event($event_id, $user_id) {
 	$wpdb->query("DELETE FROM $table_name WHERE event_id = $event_id AND user_id = $user_id LIMIT 1");
 }
 
+// Get all events from the database
+function lanorg_get_all_events() {
+	global $wpdb;
+
+	$table_name = $wpdb->prefix . 'lanorg_events';
+
+	return $wpdb->get_results("SELECT * FROM $table_name");
+}
+
 ?>
