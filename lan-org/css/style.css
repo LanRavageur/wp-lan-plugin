@@ -83,7 +83,7 @@ table.lanorg-team-list .lanorg-text {
   font-size: 12px;
   color: #403e27;
   box-shadow: none;
-  width: 70%;
+  width: 100%;
   height: 100%;
 }
 
@@ -110,7 +110,6 @@ table.lanorg-team-list tr.header th {
 }
 
 table.lanorg-team-list tr.header th.left, table.lanorg-team-list tr.header th.right {
-  width: 1px;
   padding: 0;
 }
 
@@ -136,8 +135,13 @@ table.lanorg-team-list td {
   vertical-align: middle;
 }
 
-table.lanorg-team-list td.left, table.lanorg-team-list td.right {
+table.lanorg-team-list td small {
+  font-size: 60%;
+}
+
+table.lanorg-team-list .left, table.lanorg-team-list .right {
   padding: 0;
+  width: 1px;
 }
 
 table.lanorg-team-list td {

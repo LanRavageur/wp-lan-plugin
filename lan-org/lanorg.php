@@ -189,6 +189,8 @@ class LanOrg {
 "CREATE TABLE $table_name (
   team_id MEDIUMINT(5) NOT NULL AUTO_INCREMENT,
   user_id BIGINT(20) NOT NULL,
+	user_accept TINYINT(1) NOT NULL DEFAULT 1,
+	team_accept TINYINT(1) NOT NULL DEFAULT 1,
 	UNIQUE KEY id (team_id,user_id)
 );";
 		dbDelta($stmt);

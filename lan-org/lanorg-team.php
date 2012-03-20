@@ -160,7 +160,7 @@ function lanorg_admin_team_page() {
 }
 
 // User joins a team
-function lanorg_join_team($team_id, $user_id) {
+function lanorg_join_team($team_id, $user_id, $team_accepted=TRUE, $user_accepted=TRUE) {
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . 'lanorg_teams_users';
@@ -169,8 +169,10 @@ function lanorg_join_team($team_id, $user_id) {
 	$data = array(
 		'team_id' => $team_id,
 		'user_id' => $user_id,
+		'team_accept' => $team_accepted,
+		'user_accept' => $user_accepted,
 	);
-	return $wpdb->insert($table_name,	$data, array('%d', '%d'));
+	return $wpdb->insert($table_name,	$data, array('%d', '%d', '%d', '%d'));
 }
 
 // User leaves a team
@@ -193,7 +195,7 @@ function lanorg_get_team_users($team_id) {
 	$user_table_name = $wpdb->prefix . 'users';
 
 	$team_users = $wpdb->get_results(
-		"SELECT user_id, " .
+		"SELECT *, " .
 		"(SELECT user_login FROM $user_table_name WHERE ID = user_id) as username " .
 		"FROM $table_name WHERE team_id = $team_id"
 	);
@@ -204,16 +206,61 @@ function lanorg_get_team_users($team_id) {
 function lanorg_get_teams($tournament_id) {
 	global $wpdb;
 
+	$tournament_id = (int) $tournament_id;
+	$table_name = $wpdb->prefix . 'lanorg_teams';
+
+	$teams = $wpdb->get_results("SELECT * FROM $table_name WHERE tournament_id = $tournament_id");
+	return $teams;
+}
+
+// Return team by id
+function lanorg_get_teams_by_id($team_id) {
+	global $wpdb;
+
 	$team_id = (int) $team_id;
 	$table_name = $wpdb->prefix . 'lanorg_teams';
 
-	$team_users = $wpdb->get_results("SELECT * FROM $table_name WHERE tournament_id = $tournament_id");
-	return $team_users;
+	$team = $wpdb->get_row("SELECT * FROM $table_name WHERE id = $team_id", ARRAY_A);
+	return $team;
 }
 
 
 function lanorg_team_page() {
 	global $lanOrg;
+
+	$current_user_id = get_current_user_id();
+
+	// Apply button action
+	if (isset($_POST['lanorg-team-id'])) {
+		$team_id = (int) $_POST['lanorg-team-id'];
+
+		$team = lanorg_get_teams_by_id($team_id);
+
+		if ($team) {
+			if (isset($_POST['lanorg-join'])) {
+				lanorg_join_team($team_id, $current_user_id, FALSE, TRUE);
+			}
+
+			if (isset($_POST['lanorg-leave'])) {
+				lanorg_leave_team($team_id, $current_user_id);
+			}
+
+			// Action for team administrator
+			if ($team['owner_id'] == $current_user_id) {
+
+				if (isset($_POST['lanorg-invite']) && isset($_POST['lanorg-username'])) {
+					$user = get_user_by('login', $_POST['lanorg-username']);
+					if ($user) {
+						lanorg_join_team($team_id, $user->ID, TRUE, FALSE);
+					}
+				}
+				else if (isset($_POST['lanorg-kick']) && isset($_POST['lanorg-user']))
+				{
+					lanorg_leave_team($team_id, (int) $_POST['lanorg-user']);
+				}
+			}
+		}
+	}
 
 	$lan_events = lanorg_get_all_events();
 
@@ -251,6 +298,7 @@ function lanorg_display_team($team) {
 		}
 	}
 
+	echo	'<input type="hidden" name="lanorg-team-id" value="' . $team->id . '"/>';
 	echo	'<table class="lanorg-team-list orange" cellspacing="0" cellpadding="0" border="0" style="width: 250px;">' .
 				'<thead>' .
 				'<tr class="header">' .
@@ -259,10 +307,10 @@ function lanorg_display_team($team) {
 
 	echo	'<th>';
 	if ($user_in_team) {
-		echo	'<input type="button" class="lanorg-button" value="Partir"/></th>';
+		echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="Partir"/></th>';
 	}
 	else {
-		echo	'<input type="button" class="lanorg-button" value="Rejoindre"/></th>';
+		echo	'<input type="submit" name="lanorg-join" class="lanorg-button" value="Rejoindre"/></th>';
 	}
 
 	echo	'</th><th class="right"></th>' .
@@ -270,14 +318,27 @@ function lanorg_display_team($team) {
 				'</thead>',
 				'<tbody>';
 	foreach ($team->users as $user) {
+		$invite_accepted = $user->user_accept && $user->team_accept;
+
+		$suffix = NULL;
+		if (!$user->user_accept) {
+			$suffix = '(invite pending)';
+		}
+		else if (!$user->team_accept) {
+			$suffix = '(approval pending)';
+		}
+		else if ($user->user_id == $team->owner_id) {
+			$suffix = '(manager)';
+		}
 		echo 	'<tr class="row">' .
 					'<td class="left"></td>' .
-					'<td><a href="' . lanorg_get_user_profile_url($user->user_id) . '"><span>' .
-					htmlentities($user->username, NULL, 'UTF-8') . '</span></a>' .
-					'</td><td>';
+					'<td><span><a href="' . lanorg_get_user_profile_url($user->user_id) . '">' .
+					htmlentities($user->username, NULL, 'UTF-8') . '</a>' .
+					($suffix ? '<small> ' . $suffix . '</small>' : '') . '' .
+					'</span></td><td>';
 
 		if ($is_manager) {
-			echo	'<input type="button" class="lanorg-button" value="Expulser"/></td>';
+			echo	'<input type="radio" name="lanorg-user" class="lanorg-button" value="' . $user->user_id . '"/></td>';
 		}
 
 		echo	'</td><td class="right"></td>' .
@@ -287,8 +348,9 @@ function lanorg_display_team($team) {
 	if ($can_invite) {
 		echo 	'<tr>' .
 					'<td class="left"></td>' .
-					'<td><input type="text" class="lanorg-text" placeholder="Add a new user..."/></td>';
-		echo	'<td><input type="button" class="lanorg-button" value="Inviter"/></td>';
+					'<td><input type="text" name="lanorg-username" class="lanorg-text" placeholder="Inviter un utilisateur..."/></td>';
+		echo	'<td><input type="submit" name="lanorg-kick" class="lanorg-button" value="Expulser ^"/>';
+		echo	'<input type="submit" name="lanorg-invite" class="lanorg-button" value="Inviter"/></td>';
 		echo	'<td class="right"></td>' .
 					'</tr>';
 	}

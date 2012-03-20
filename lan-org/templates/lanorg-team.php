@@ -14,7 +14,9 @@ $page_title = __('Teams', 'lanorg');
 <h3 style="clear: none;"><?php echo htmlentities($tournament->game, NULL, 'UTF-8'); ?></h3>
 <?php foreach ($tournament->teams as $team) { ?>
 
+<form method="POST">
 <?php echo lanorg_display_team($team); ?>
+</form>
 
 <?php } ?>
 
