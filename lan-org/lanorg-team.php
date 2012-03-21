@@ -346,15 +346,24 @@ function lanorg_team_page() {
 			// Action for team administrator
 			if ($team['owner_id'] == $current_user_id) {
 
+				// Invite a user
 				if (isset($_POST['lanorg-invite']) && isset($_POST['lanorg-username'])) {
 					$user = get_user_by('login', $_POST['lanorg-username']);
 					if ($user) {
 						lanorg_join_team($team_id, $user->ID, TRUE, FALSE);
 					}
 				}
+				// Kick a user from team
 				else if (isset($_POST['lanorg-kick']) && isset($_POST['lanorg-user']))
 				{
 					lanorg_leave_team($team_id, (int) $_POST['lanorg-user']);
+				}
+				// Accept a user from team
+				else if (isset($_POST['lanorg-accept'])) {
+					$user = get_user_by('id', $_POST['lanorg-user']);
+					if ($user) {
+						lanorg_join_team($team_id, $user->ID, TRUE, FALSE);
+					}
 				}
 			}
 		}
@@ -423,7 +432,12 @@ function lanorg_display_team($team, $tournament) {
 	echo	'<th class="lanorg-right">';
 	if ($user_in_team) {
 		if ($user_accept) {
-			echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="Partir"/>';
+			if ($is_manager) {
+				echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="Supprimer"/>';
+			}
+			else {
+				echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="Partir"/>';
+			}
 		}
 		else {
 			echo	'<input type="submit" name="lanorg-join" class="lanorg-button" value="Oui"/>';
@@ -475,9 +489,15 @@ function lanorg_display_team($team, $tournament) {
 	if ($can_invite) {
 		echo 	'<tr>' .
 					'<td class="left"></td>' .
+					'<td colspan="2"><input type="submit" name="lanorg-kick" class="lanorg-button" value="Expulser ^"/>' .
+					'<input type="submit" name="lanorg-accept" class="lanorg-button" value="Accepter"/></td>' .
+					'<td class="right"></td>' .
+					'</tr>';
+
+		echo 	'<tr>' .
+					'<td class="left"></td>' .
 					'<td><input type="text" name="lanorg-username" class="lanorg-text" placeholder="Inviter un utilisateur..."/></td>';
-		echo	'<td><input type="submit" name="lanorg-kick" class="lanorg-button" value="Expulser ^"/>';
-		echo	'<input type="submit" name="lanorg-invite" class="lanorg-button" value="Valider"/></td>';
+		echo	'<td><input type="submit" name="lanorg-invite" class="lanorg-button" value="Inviter"/></td>';
 		echo	'<td class="right"></td>' .
 					'</tr>';
 	}
