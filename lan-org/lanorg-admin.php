@@ -46,6 +46,16 @@ function lanorg_init_tournament_form() {
 			'label' => __('Platform', 'lanorg'),
 		),
 		array(
+			'type' => 'text',
+			'key' => 'max_team',
+			'label' => __('Maximum team count', 'lanorg'),
+		),
+		array(
+			'type' => 'text',
+			'key' => 'team_size',
+			'label' => __('Players per team', 'lanorg'),
+		),
+		array(
 			'type' => 'checkbox',
 			'key' => 'allow_teams',
 			'text' => __('Enable teams', 'lanorg'),

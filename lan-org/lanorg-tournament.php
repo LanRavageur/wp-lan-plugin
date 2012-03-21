@@ -38,6 +38,15 @@ function lanorg_get_tournaments($event_id) {
 	return $wpdb->get_results("SELECT * FROM $table_name WHERE event_id = $event_id", 0);
 }
 
+function lanorg_tournament_exists($tournament_id) {
+	global $wpdb;
+
+	$tournament_id = (int) $tournament_id;
+	$table_name = $wpdb->prefix . 'lanorg_tournaments';
+
+	return $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM $table_name WHERE id = $tournament_id")) > 0;
+}
+
 // Returns an associative array containing id as key and name as value.
 function lanorg_get_tournament_list() {
 	global $wpdb;

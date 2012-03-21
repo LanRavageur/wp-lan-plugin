@@ -143,7 +143,7 @@ class LanOrg {
 		$table_name = $wpdb->prefix . 'lanorg_events';
 		$stmt =
 "CREATE TABLE $table_name (
-  id SMALLINT(5) NOT NULL AUTO_INCREMENT,
+  id SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
 	title TINYTEXT NOT NULL,
 	date DATE NOT NULL,
 	location TINYTEXT NOT NULL,
@@ -154,12 +154,14 @@ class LanOrg {
 		$table_name = $wpdb->prefix . 'lanorg_tournaments';
 		$stmt =
 "CREATE TABLE $table_name (
-  id SMALLINT(5) NOT NULL AUTO_INCREMENT,
-  event_id SMALLINT(5) NOT NULL,
+  id SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  event_id SMALLINT(5) UNSIGNED NOT NULL,
 	game TINYTEXT NOT NULL,
 	publisher TINYTEXT NOT NULL,
 	platform TINYTEXT NOT NULL,
 	allow_teams TINYINT(1) NOT NULL,
+  max_team MEDIUMINT(5) UNSIGNED NOT NULL,
+  team_size MEDIUMINT(5) UNSIGNED NOT NULL,
 	UNIQUE KEY id (id)
 );";
 		dbDelta($stmt);
@@ -167,8 +169,8 @@ class LanOrg {
 		$table_name = $wpdb->prefix . 'lanorg_events_users';
 		$stmt =
 "CREATE TABLE $table_name (
-  user_id BIGINT(20) NOT NULL,
-  event_id SMALLINT(5) NOT NULL,
+  user_id BIGINT(20) UNSIGNED NOT NULL,
+  event_id SMALLINT(5) UNSIGNED NOT NULL,
 	UNIQUE KEY event_user_id (user_id,event_id)
 );";
 		dbDelta($stmt);
@@ -176,10 +178,11 @@ class LanOrg {
 		$table_name = $wpdb->prefix . 'lanorg_teams';
 		$stmt =
 "CREATE TABLE $table_name (
-  id MEDIUMINT(5) NOT NULL AUTO_INCREMENT,
-  owner_id BIGINT(20) NOT NULL,
-  tournament_id SMALLINT(5) NOT NULL,
+  id MEDIUMINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  owner_id BIGINT(20) UNSIGNED NOT NULL,
+  tournament_id SMALLINT(5) UNSIGNED NOT NULL,
 	name TINYTEXT NOT NULL,
+  position MEDIUMINT(5) UNSIGNED NOT NULL,
 	UNIQUE KEY id (id)
 );";
 		dbDelta($stmt);
@@ -187,8 +190,8 @@ class LanOrg {
 		$table_name = $wpdb->prefix . 'lanorg_teams_users';
 		$stmt =
 "CREATE TABLE $table_name (
-  team_id MEDIUMINT(5) NOT NULL AUTO_INCREMENT,
-  user_id BIGINT(20) NOT NULL,
+  team_id MEDIUMINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id BIGINT(20) UNSIGNED NOT NULL,
 	user_accept TINYINT(1) NOT NULL DEFAULT 1,
 	team_accept TINYINT(1) NOT NULL DEFAULT 1,
 	UNIQUE KEY id (team_id,user_id)

@@ -52,6 +52,7 @@ table.lanorg-team-list {
   font: 16px Arial;
   margin: 5px 5px 0 0;
   float: left;
+  table-layout: fixed;
 }
 
 table.lanorg-team-list .lanorg-button {
@@ -137,6 +138,12 @@ table.lanorg-team-list td {
 
 table.lanorg-team-list td small {
   font-size: 60%;
+  float: left;
+  line-height: 24px;
+}
+
+table.lanorg-team-list th.lanorg-right span {
+  float: left;
 }
 
 table.lanorg-team-list .left, table.lanorg-team-list .right {
