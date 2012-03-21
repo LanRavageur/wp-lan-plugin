@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 21:01-0500\n"
-"PO-Revision-Date: 2012-03-19 21:27-0500\n"
-"Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
+"POT-Creation-Date: 2012-03-20 22:10-0500\n"
+"PO-Revision-Date: 2012-03-20 22:12-0500\n"
+"Last-Translator: JDownloader <jeandanielpearson@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,22 +25,26 @@ msgid "First name"
 msgstr "Prénom"
 
 #: ../lanorg-account.php:24
-#: ../lanorg-team.php:57
-#: ../lanorg-team.php:84
+#: ../lanorg-team.php:117
+#: ../lanorg-team.php:144
 msgid "Name"
 msgstr "Nom"
 
 #: ../lanorg-account.php:30
-#: ../lanorg-account.php:49
+#: ../lanorg-account.php:51
 msgid "Email"
 msgstr "Courriel"
 
 #: ../lanorg-account.php:36
-#: ../lanorg-account.php:55
+#: ../lanorg-account.php:57
 msgid "Password"
 msgstr "Mot de passe"
 
-#: ../lanorg-account.php:149
+#: ../lanorg-account.php:39
+msgid "Password confirmation"
+msgstr "Confirmation de Mot de passe"
+
+#: ../lanorg-account.php:151
 msgid "Username or password incorrect"
 msgstr "Nom d'utilisateur ou mot de passe incorrect"
 
@@ -156,45 +160,49 @@ msgstr "(sans @)"
 msgid "Youtube Account"
 msgstr "Compte Youtube"
 
-#: ../lanorg-form.php:368
+#: ../lanorg-form.php:386
 msgid "This field is required."
 msgstr "Ce champ est obligatoire."
 
-#: ../lanorg-form.php:375
+#: ../lanorg-form.php:393
 msgid "This nickname already exists."
 msgstr "Ce pseudonyme existe déjà."
 
-#: ../lanorg-form.php:382
+#: ../lanorg-form.php:400
 msgid "This nickname is not valid."
 msgstr "Ce pseudonyme n'est pas valide."
 
-#: ../lanorg-form.php:389
+#: ../lanorg-form.php:407
 msgid "This email is already registered."
 msgstr "Cet adresse courriel est déjà enregistré."
 
-#: ../lanorg-form.php:396
+#: ../lanorg-form.php:414
 msgid "This email is not a valid format."
 msgstr "Cet adresse courriel n'a pas un format valide."
 
-#: ../lanorg-team.php:11
+#: ../lanorg-form.php:422
+msgid "Password confirmation does not match."
+msgstr "La confirmation de Mot de passe ne correspond pas"
+
+#: ../lanorg-team.php:15
 msgid "User Name"
 msgstr "Nom d'utillisateur"
 
-#: ../lanorg-team.php:63
-#: ../lanorg-team.php:85
+#: ../lanorg-team.php:123
+#: ../lanorg-team.php:145
 msgid "Tournament"
 msgstr "Tournois"
 
-#: ../lanorg-team.php:70
-#: ../lanorg-team.php:86
+#: ../lanorg-team.php:130
+#: ../lanorg-team.php:146
 msgid "Owner"
 msgstr "Détenteur"
 
-#: ../lanorg-team.php:81
+#: ../lanorg-team.php:141
 msgid "team"
 msgstr "équipe"
 
-#: ../lanorg-team.php:82
+#: ../lanorg-team.php:142
 msgid "teams"
 msgstr "équipes"
 

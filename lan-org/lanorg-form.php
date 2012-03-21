@@ -13,6 +13,7 @@ $lanorg_custom_validators = array(
 	'username_valid' => 'lanorg_validate_username_valid',
 	'email_exists' => 'lanorg_validate_email_exists',
 	'email_valid' => 'lanorg_validate_email_valid',
+	'password_valid' => 'lanorg_validate_password',
 );
 
 $lanorg_field_validators = array(
@@ -268,10 +269,26 @@ function lanorg_text_field_html($options, $value, $prefix, $error) {
 	$markup .= 'id="' . $key . '" ';
 	$markup .= 'name="' . $key . '" ';
 
-	if ($value !== NULL) {
+	if ($value !== NULL && !$is_password) {
 		$markup .= 'value="' . htmlentities($value, NULL, 'UTF-8') . '" ';
 	}
 	$markup .= 'class="' . $css_classes . '"/>';
+
+	// Password confirmation
+	if (isset($options['passwordConfirmation']) && $options['passwordConfirmation'] == TRUE) {
+		$markup .= '</p><p>';
+		if (isset($options['label_passwordConfirmation'])) {
+			$markup .= '' . lanorg_label_html($key, $options['label_passwordConfirmation']);
+		}
+		else{
+			$markup .= '' . lanorg_label_html($key, '');
+		}
+		$markup .= '<input ';
+		$markup .= 'type="password" id="' . $key . 'Confirm" ';
+		$markup .= 'name="' . $key . 'Confirm" ';
+		$markup .= 'class="' . $css_classes . '"/>';
+	}
+
 	return $markup;
 }
 
@@ -398,4 +415,11 @@ function lanorg_validate_email_valid($options, $value, &$errors) {
 	}
 }
 
+// Raise an error if password and password confirmation field are not equals
+function lanorg_validate_password($options, $value, &$errors) {
+	global $lanOrg;
+	if ($value != $_POST[$lanOrg->form_prefix . $options['key'] . 'Confirm']) {
+		array_push($errors, __('Password confirmation does not match.', 'lanorg'));
+	}
+}
 ?>

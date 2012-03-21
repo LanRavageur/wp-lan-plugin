@@ -35,7 +35,9 @@ function lanorg_init_form() {
 			'key' => 'password',
 			'label' => __('Password', 'lanorg'),
 			'password' => true,
-			'validator' => 'empty',
+			'passwordConfirmation' => true,
+			'label_passwordConfirmation' => __('Password confirmation', 'lanorg'),
+			'validator' => array('empty','password_valid'),
 		),
 	);
 }
