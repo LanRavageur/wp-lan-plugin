@@ -7,7 +7,7 @@ LanOrg.installAjaxEvents = function () {
     semantic: true,
     success: LanOrg.handleFormResponse,
     beforeSubmit: LanOrg.handleFormSubmit,
-    data: { lanorg_ajax: true },
+    data: { lanorg_ajax: true }
   });
 };
 
