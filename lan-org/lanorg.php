@@ -214,6 +214,8 @@ class LanOrg {
 	UNIQUE KEY id (team_id,user_id)
 );";
 		dbDelta($stmt);
+
+		flush_rewrite_rules();
 	}
 
 	// Called when the plugin is desactivated
