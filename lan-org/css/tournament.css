@@ -1,0 +1,112 @@
+
+.ttn-round {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 157px;
+  float: left;
+}
+
+.ttn-leaf {
+  font: 13px 'Open Sans';
+  position: relative;
+  width: 157px;
+  vertical-align: middle;
+  #margin-bottom: 25px;
+}
+
+.tournament-brackets {
+  cursor: default;
+  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: auto;
+  position: relative;
+  height: 100%;
+}
+
+.ttn-leaf div.ttn-top, .ttn-leaf div.ttn-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background-image: url(../images/tournament-bracket.png);
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ttn-leaf div.ttn-top {
+  background-position: top right;
+  z-index: 1;
+}
+
+.ttn-leaf span, .ttn-leaf a {
+  padding-top: 2px;
+  display: inline-block;
+  width: 104px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+  line-height: 20px;
+}
+
+.ttn-leaf .ttn-bottom .ttn-content {
+  position: absolute;
+  bottom: 2px;
+  width: 100%;
+}
+
+.ttn-leaf a:hover {
+  text-decoration: underline;
+}
+
+.ttn-leaf .ttn-lost a {
+  text-decoration: line-through;
+}
+
+.ttn-leaf .ttn-select {
+  position: absolute;
+  left: 0;
+}
+
+.ttn-leaf .ttn-player {
+  width: 104px;
+  border: 1px solid #6c281c;
+  height: 19px;
+  background: #cc4730;
+  color: #fff;
+}
+
+.ttn-leaf .ttn-top .ttn-select {
+  top: 2px;
+}
+
+.ttn-leaf .ttn-bottom .ttn-select {
+  bottom: 4px;
+}
+
+.ttn-leaf div.versus {
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -0.5em;
+  margin-left: -0.5em;
+  line-height: 1em;
+  color: #404040;
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.ttn-leaf div.ttn-bottom {
+  bottom: 0;
+  background-position: bottom right;
+  z-index: 1;
+  vertical-align: bottom;
+}
+
+.ttn-leaf div.ttn-advance {
+  left: -157px;
+}

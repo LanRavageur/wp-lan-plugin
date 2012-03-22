@@ -119,6 +119,7 @@ class LanOrg {
 	function get_query_vars($query_vars) {
 		$query_vars[] = 'lanorg_page';
 		$query_vars[] = 'user_id';
+		$query_vars[] = 'tournament_id';
 		return $query_vars;
 	}
 
@@ -127,6 +128,7 @@ class LanOrg {
 			'login/?$' => 'index.php?lanorg_page=login',
 			'registration/?$' => 'index.php?lanorg_page=registration',
 			'tournament/?$' => 'index.php?lanorg_page=tournament',
+			'tournament/?([0-9]{1,})/?$' => 'index.php?lanorg_page=tournament&tournament_id=' . $wp_rewrite->preg_index(1),
 			'team/?$' => 'index.php?lanorg_page=team',
 			'live/?$' => 'index.php?lanorg_page=live',
 			'profile/?$' => 'index.php?lanorg_page=profile',
@@ -165,6 +167,21 @@ class LanOrg {
 	UNIQUE KEY id (id)
 );";
 		dbDelta($stmt);
+
+		$table_name = $wpdb->prefix . 'lanorg_matches';
+		$stmt =
+"CREATE TABLE $table_name (
+  id MEDIUMINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  tournament_id SMALLINT(5) UNSIGNED NOT NULL,
+  round SMALLINT(5) UNSIGNED NOT NULL,
+  team1_id MEDIUMINT(5) UNSIGNED NOT NULL,
+  team2_id MEDIUMINT(5) UNSIGNED NOT NULL,
+  winner SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0,
+	UNIQUE KEY id (id),
+	UNIQUE KEY id1 (round,team1_id,tournament_id),
+	UNIQUE KEY id2 (round,team2_id,tournament_id)
+);";
+		echo dbDelta($stmt);
 
 		$table_name = $wpdb->prefix . 'lanorg_events_users';
 		$stmt =
@@ -218,7 +235,8 @@ class LanOrg {
 				lanorg_team_page();
 				break ;
 			case 'tournament':
-				lanorg_tournament_page();
+				$tournament_id = isset($wp_query->query_vars['tournament_id']) ? $wp_query->query_vars['tournament_id'] : NULL;
+				lanorg_tournament_page($tournament_id);
 				break ;
 			case 'live':
 				$this->render_two_column_page('lanorg-live.php');
