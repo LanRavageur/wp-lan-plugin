@@ -15,6 +15,7 @@ else {
 
 ?>
 <h1 style="clear: none;" class="entry-title">Profile de <?php echo $user_info->data->user_login; ?></h1>
+<?php echo get_avatar($user_info->data->ID); ?>
 <dl>
 <?php foreach ($user_meta_data as $key => $value) { ?>
 <dt><?php echo htmlentities($key, NULL, 'UTF-8'); ?></dt>

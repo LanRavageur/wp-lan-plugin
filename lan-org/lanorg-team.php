@@ -473,7 +473,7 @@ function lanorg_display_team($team, $tournament) {
 		}
 		echo 	'<tr class="row">' .
 					'<td class="left"></td>' .
-					'<td><span><a href="' . lanorg_get_user_profile_url($user->user_id) . '">' .
+					'<td><span><a href="' . lanorg_get_user_profile_url($user->user_id) . '" class="lanorg-link">' .
 					htmlentities($user->username, NULL, 'UTF-8') . '</a>' .
 					'</span></td><td>';
 
@@ -503,21 +503,6 @@ function lanorg_display_team($team, $tournament) {
 	}
 	echo 	'</tbody>' .
 				'</table>';
-/*
-<tbody>
-<tr class="row">
-<td class="left"></td>
-<td>Les loups</td>
-<td class="right"></td>
-</tr>
-<tr class="row">
-<td class="left"></td>
-<td>Les loups</td>
-<td class="right"></td>
-</tr>
-</tbody>
-</table>
-*/
 
 }
 

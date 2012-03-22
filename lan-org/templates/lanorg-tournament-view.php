@@ -9,7 +9,7 @@ $page_title = 'Tournois';
 
 ?>
 <h1 style="clear: none;" class="entry-title"><?php echo htmlentities($tournament['game'], NULL, 'UTF-8'); ?></h1>
-<form method="POST">
+<form method="POST" class="lanorg-form">
 <p>
 <input type="submit" name="lanorg-winner" value="Declare winner"/>
 <input type="submit" name="lanorg-delete-match" value="Cancel match"/>

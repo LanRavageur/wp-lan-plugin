@@ -90,6 +90,10 @@ class LanOrg {
 		wp_register_style('lanorg-form', plugins_url('css/form.css', __FILE__));
 		wp_register_style('lanorg-style', plugins_url('css/style.css', __FILE__));
 
+		wp_register_script('lanorg-history', plugins_url('js/jquery.history.js', __FILE__),
+			array('jquery'), FALSE, TRUE);
+		wp_register_script('lanorg-ajax', plugins_url('js/ajax.js', __FILE__),
+			array('lanorg-history', 'jquery-form', 'jquery'), FALSE, TRUE);
 	}
 
 	function setup_rewrite_tags() {
@@ -120,6 +124,7 @@ class LanOrg {
 		$query_vars[] = 'lanorg_page';
 		$query_vars[] = 'user_id';
 		$query_vars[] = 'tournament_id';
+		$query_vars[] = 'lanorg_ajax';
 		return $query_vars;
 	}
 
@@ -286,6 +291,7 @@ class LanOrg {
 		$GLOBALS['content_template'] = $this->resolve_template_file($page_file);
 
 		wp_enqueue_style('lanorg-style');
+		wp_enqueue_script('lanorg-ajax');
 
 		$this->render_custom_page('lanorg-twocolumn.php');
 	}
@@ -320,8 +326,10 @@ class LanOrg {
 
 		$this->page_title = $GLOBALS['page_title'];
 
-		$this->render_template('lanorg-page.php');
-
+		$ajax = isset($wp_query->query_vars['lanorg_ajax']) || isset($_POST['lanorg_ajax']);
+		$template_page =	$ajax ?
+											'lanorg-ajax.php' : 'lanorg-page.php';
+		$this->render_template($template_page);
 		exit ;
 	}
 

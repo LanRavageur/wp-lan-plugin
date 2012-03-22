@@ -35,6 +35,7 @@ function lanorg_tournament_page($tournament_id=NULL) {
 			$has_team = FALSE;
 
 			$match_index = 0;
+
 			foreach ($round as &$match_planned) {
 				$unique_id = $round_index . '_' . $match_index;
 				$unique_id1 = $unique_id . '_1';
@@ -68,7 +69,9 @@ function lanorg_tournament_page($tournament_id=NULL) {
 						}
 					}
 				}
+			}
 
+			foreach ($round as &$match_planned) {
 				$winner_id = NULL;
 
 				foreach ($matches as &$match_played) {
@@ -166,7 +169,6 @@ function lanorg_delete_match($tournament_id, $round, $team1_id, $team2_id) {
 		"round = $round AND tournament_id = $tournament_id";
 
 	if ($wpdb->query($stmt)) {
-		// Delete all submatches which the user played
 		
 		$stmt = "DELETE FROM $table_name WHERE " .
 			"((team1_id = $team1_id OR team2_id = $team2_id) OR " .
@@ -174,7 +176,7 @@ function lanorg_delete_match($tournament_id, $round, $team1_id, $team2_id) {
 			"round > $round AND tournament_id = $tournament_id";
 		$result = !!$wpdb->query($stmt);
 	}
-	
+
 	return $result;
 }
 
