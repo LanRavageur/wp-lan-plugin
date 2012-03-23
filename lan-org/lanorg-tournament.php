@@ -1,5 +1,205 @@
 <?php
 
+class TournamentBrackets {
+	// Array of matches per rounds
+	private $rounds = array();
+
+	// List of teams
+	private $teams;
+
+	public function __construct($teams=array()) {
+		$this->teams = $teams;
+
+	}
+
+	public function CreateSimpleEliminationTree() {
+		$round_index = 0;
+
+		$round_index = 0;
+		$this->teams = array_slice($this->teams, 0, 64);
+		$nb_teams = count($this->teams);
+
+		do
+		{
+			$this->CreateRound();
+			for ($i = 0; $i < count($this->teams); $i += 2) {
+
+
+				$this->CreateMatch($round_index, NULL, NULL);
+			}
+
+			$round_index++;
+			$nb_teams = ceil($nb_teams / 2.0);
+
+		} while ($nb_teams > 1);
+	}
+
+	// Set result for every played match in round
+	public function CreateMatchesResults($matches_played) {
+		$round_index = 0;
+
+		foreach ($this->rounds as &$matches_planned) {
+			$i = 0;
+			$skip_branches = 0;
+			foreach ($matches_planned as &$match_planned) {
+				$match_planned['result'] = NULL;
+				$match_planned['team1'] = NULL;
+				$match_planned['team2'] = NULL;
+
+				// Every team plays on first round
+				if ($round_index == 0) {
+					$match_planned['team1'] = $this->teams[$i];
+					$match_planned['team2'] = ($i + 1 < count($this->teams)) ? $this->teams[$i + 1] : NULL;
+				}
+				else {
+					// Find out which team played
+					$match_index = $i;
+					$last_round = $this->rounds[$round_index - 1];
+
+					if (isset($last_round[$match_index]) &&
+							isset($last_round[$match_index + 1]))
+					{
+						$match1 = $last_round[$match_index];
+						$match2 = $last_round[$match_index + 1];
+
+						$match_result1 = $match1['result'];
+						$match_result2 = $match2['result'];
+
+						if ($match_result1 && $match_result2) {
+							$match_planned['team1'] = ($match_result1['winner'] == 1)
+								? $match1['team1']
+								: $match1['team2'];
+
+							$match_planned['team2'] = ($match_result2['winner'] == 1)
+								? $match2['team1']
+								: $match2['team2'];
+
+						}
+					}
+				}
+
+				if ($match_planned['team1'] && $match_planned['team2']) {
+					// Match exists, no gap between each match
+					$skip_branches = 0;
+					foreach ($matches_played as &$match_played) {
+						if ($match_played['round'] == $round_index &&
+								$match_planned['team1']->id == $match_played['team1_id'] &&
+								$match_planned['team2']->id == $match_played['team2_id'])
+						{
+							$match_planned['result'] = $match_played;
+							break ;
+						}
+					}
+				}
+				else {
+					//$skip_branches++;
+				}
+
+				// Only pass to next teams when it is correctly aligned by preceding round branch
+				//$arr_next_
+				if ($skip_branches % 4 == 0) {
+					$i += 2;
+				}
+			}
+
+			$round_index++;
+		}
+	}
+
+	// Create a new round at the end of the list
+	public function CreateRound() {
+		array_push($this->rounds, array());
+	}
+
+	// Create a new match
+	// @param round index begining at 0
+	// @param team1 team playing the match
+	// @param team2 team opponent
+	// @param result Match result, array containing scores and the winning team
+	public function CreateMatch($round_index, $team1, $team2, $result=NULL) {
+		$added = FALSE;
+		if (isset($this->rounds[$round_index])) {
+			$match_index = count($this->rounds[$round_index]);
+
+			$match = array(
+				'team1' => $team1,
+				'team2' => $team2,
+				'result' => $result,
+				'unique_id1' => self::GetUniqueID($round_index, $match_index, 1),
+				'unique_id2' => self::GetUniqueID($round_index, $match_index, 2),
+			);
+
+			array_push($this->rounds[$round_index], $match);
+		}
+
+		return $added;
+	}
+
+	public static function GetUniqueID($round_index, $match_index, $team_index) {
+		$unique_id = $round_index . '_' . $match_index;
+		return $unique_id . '_' . $team_index;
+	}
+
+	public function GetRounds() {
+		return $this->rounds;
+	}
+
+	// Set the winner team
+	// A string that contains a match in this format :
+	// [round_index]_[match_index]_[team_index]
+	public function AddMatch($tournament_id, $winner) {
+
+		$this->ForEachMatch(function ($round_index, $matches_planned, $match_index, $match_planned)
+			use ($tournament_id, $winner) {
+			$unique_id1 = TournamentBrackets::GetUniqueID($round_index, $match_index, '1');
+			$unique_id2 = TournamentBrackets::GetUniqueID($round_index, $match_index, '2');
+
+			if ($unique_id1 == $winner || $unique_id2 == $winner) {
+				$winner_team_index = $unique_id1 == $winner ? 1 : 2;
+
+				lanorg_add_match(	$tournament_id, $round_index,
+													$match_planned['team1']->id, $match_planned['team2']->id,
+													$winner_team_index);
+			}
+
+		});
+	}
+
+	// Delete a match
+	// A string that contains a match in this format :
+	// [round_index]_[match_index]_[team_index]
+	public function DeleteMatch($tournament_id, $match_id) {
+
+		$this->ForEachMatch(function ($round_index, $matches_planned, $match_index, $match_planned)
+			use ($tournament_id, $match_id) {
+			$unique_id1 = TournamentBrackets::GetUniqueID($round_index, $match_index, '1');
+			$unique_id2 = TournamentBrackets::GetUniqueID($round_index, $match_index, '2');
+
+			if ($unique_id1 == $match_id || $unique_id2 == $match_id) {
+				$winner_team_index = $unique_id1 == $match_id ? 1 : 2;
+
+				lanorg_delete_match($tournament_id, $round_index,
+														$match_planned['team1']->id, $match_planned['team2']->id,
+														$winner_team_index);
+			}
+		});
+	}
+
+	public function ForEachMatch($func) {
+		$round_index = 0;
+		foreach ($this->rounds as &$matches_planned) {
+			$match_index = 0;
+			foreach ($matches_planned as &$match_planned) {
+				if ($func($round_index, $matches_planned, $match_index, $match_planned)) {
+					break ;
+				}
+				$match_index++;
+			}
+			$round_index++;
+		}
+	}
+}
+
 function lanorg_tournament_page($tournament_id=NULL) {
 	global $lanOrg;
 
@@ -8,130 +208,34 @@ function lanorg_tournament_page($tournament_id=NULL) {
 		$matches = lanorg_get_matches($tournament_id);
 		$rounds = array();
 
-
-		$round = array();
-		for ($i = 0; $i < count($teams); $i += 2) {
-			$team1 = $teams[$i];
-			$team2 = ($i + 1 < count($teams)) ? $teams[$i + 1] : NULL;
-
-			$match = array('team1' => $team1, 'team2' => $team2, 'result' => NULL);
-
-			array_push($round, $match);
-
-			//lanorg_get_next_matches($matches, $rounds, 0, $team1->id, $team2->id);
-		}
-
-		$round_index = 0;
-
-		$has_team = FALSE;
-		$selected_match = NULL;
+		$brackets = new TournamentBrackets($teams);
+		$brackets->CreateSimpleEliminationTree();
+		$brackets->CreateMatchesResults($matches);
 
 		if (isset($_POST['lanorg-match'])) {
 			$selected_match = $_POST['lanorg-match'];
+
+			if (isset($_POST['lanorg-add-match'])) {
+				$brackets->AddMatch($tournament_id, $selected_match);
+			}
+			if (isset($_POST['lanorg-delete-match'])) {
+				$brackets->DeleteMatch($tournament_id, $selected_match);
+			}
+			// Reload matches
+			$matches = lanorg_get_matches($tournament_id);
+			$brackets->CreateMatchesResults($matches);
 		}
 
-		do {
-			$next_round = array();
-			$has_team = FALSE;
-
-			$match_index = 0;
-
-			foreach ($round as &$match_planned) {
-				$unique_id = $round_index . '_' . $match_index;
-				$unique_id1 = $unique_id . '_1';
-				$unique_id2 = $unique_id . '_2';
-				$match_planned['unique_id1'] = $unique_id1;
-				$match_planned['unique_id2'] = $unique_id2;
-
-				// Match has been selected
-				if ($selected_match == $unique_id1 || $selected_match == $unique_id2) {
-					$selected_team = $selected_match == $unique_id1 ? 1 : 2;
-					if (isset($_POST['lanorg-delete-match'])) {
-						// Delete a match
-						if (lanorg_delete_match($tournament_id, $round_index,
-								$match_planned['team1']->id, $match_planned['team2']->id))
-						{
-							// Update local copy
-							$matches = lanorg_get_matches($tournament_id);
-						}
-						continue ; // this match no longer exist
-					}
-
-					if (isset($_POST['lanorg-winner'])) {
-
-						// Define a winner team
-						if (lanorg_add_match($tournament_id, $round_index,
-							$match_planned['team1']->id, $match_planned['team2']->id,
-							$selected_team))
-						{
-							// Update local copy
-							$matches = lanorg_get_matches($tournament_id);
-						}
-					}
-				}
-			}
-
-			foreach ($round as &$match_planned) {
-				$winner_id = NULL;
-
-				foreach ($matches as &$match_played) {
-
-					if ($match_played['round'] == $round_index &&
-							$match_planned['team1']->id == $match_played['team1_id'] &&
-							$match_planned['team2']->id == $match_played['team2_id'])
-					{
-						$match_planned['result'] = $match_played;
-						$winner_id = $match_played['team1_id'];
-						break ;
-					}
-				}
-
-				$next_match_index = floor($match_index / 2);
-				if ($match_index % 2 == 0) {
-					$next_round[$next_match_index] = array();
-				}
-				if ($winner_id !== NULL) {
-					$team_found = NULL;
-					// Find winner team by id
-					foreach ($teams as $team) {
-						if ($team->id == $winner_id) {
-							$team_found = $team;
-							$has_team = TRUE;
-						}
-					}
-
-					if ($team_found !== NULL) {
-						// Winner team advance
-						$next_round[$next_match_index][($match_index % 2 == 0) ? 'team1' : 'team2'] =
-							$team_found;
-					}
-
-				}
-
-				$match_index++;
-			}
-			
-			array_push($rounds, $next_round);
-
-			$rounds[$round_index] = $round;
-			$round_index++;
-			$round = $next_round;
-		} while ($has_team);
-		//array_push($rounds, $teams);
-
-		//array_push($rounds, array_slice($teams, 0, 4));
-
-		//array_push($rounds, array_slice($teams, 0, 2));
-
-		//array_push($rounds, array_slice($teams, 0, 2));
+		$rounds = $brackets->GetRounds();
 
 		$GLOBALS['tournament'] = lanorg_get_tournament_by_id($tournament_id);
 		$GLOBALS['teams'] = $teams;
 		$GLOBALS['rounds'] = $rounds;
 
 		$lanOrg->render_two_column_page('lanorg-tournament-view.php');
+
 	}
-	else {
+	else { // List all tournaments
 		$lan_events = lanorg_get_all_events();
 
 		foreach ($lan_events as $event) {

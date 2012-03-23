@@ -11,7 +11,7 @@ $page_title = 'Tournois';
 <h1 style="clear: none;" class="entry-title"><?php echo htmlentities($tournament['game'], NULL, 'UTF-8'); ?></h1>
 <form method="POST" class="lanorg-form">
 <p>
-<input type="submit" name="lanorg-winner" value="Declare winner"/>
+<input type="submit" name="lanorg-add-match" value="Declare winner"/>
 <input type="submit" name="lanorg-delete-match" value="Cancel match"/>
 </p>
 <?php
@@ -92,7 +92,7 @@ if (isset($match['result'])) {
 $y += ($height - 50);
 }
 else {
-$y += pow(2, 0) * 100;
+$y += pow(2, $round_index) * 100;
 }
 
 
