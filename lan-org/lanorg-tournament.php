@@ -149,40 +149,49 @@ class TournamentBrackets {
 	// [round_index]_[match_index]_[team_index]
 	public function AddMatch($tournament_id, $winner) {
 
-		$this->ForEachMatch(function ($round_index, $matches_planned, $match_index, $match_planned)
-			use ($tournament_id, $winner) {
-			$unique_id1 = TournamentBrackets::GetUniqueID($round_index, $match_index, '1');
-			$unique_id2 = TournamentBrackets::GetUniqueID($round_index, $match_index, '2');
+		$round_index = 0;
+		foreach ($this->rounds as &$matches_planned) {
+			$match_index = 0;
+			foreach ($matches_planned as &$match_planned) {
+				$unique_id1 = TournamentBrackets::GetUniqueID($round_index, $match_index, '1');
+				$unique_id2 = TournamentBrackets::GetUniqueID($round_index, $match_index, '2');
 
-			if ($unique_id1 == $winner || $unique_id2 == $winner) {
-				$winner_team_index = $unique_id1 == $winner ? 1 : 2;
+				if ($unique_id1 == $winner || $unique_id2 == $winner) {
+					$winner_team_index = $unique_id1 == $winner ? 1 : 2;
 
-				lanorg_add_match(	$tournament_id, $round_index,
-													$match_planned['team1']->id, $match_planned['team2']->id,
-													$winner_team_index);
+					lanorg_add_match(	$tournament_id, $round_index,
+														$match_planned['team1']->id, $match_planned['team2']->id,
+														$winner_team_index);
+				}
+
+				$match_index++;
 			}
-
-		});
+			$round_index++;
+		}
 	}
 
 	// Delete a match
 	// A string that contains a match in this format :
 	// [round_index]_[match_index]_[team_index]
 	public function DeleteMatch($tournament_id, $match_id) {
+		$round_index = 0;
+		foreach ($this->rounds as &$matches_planned) {
+			$match_index = 0;
+			foreach ($matches_planned as &$match_planned) {
+				$unique_id1 = TournamentBrackets::GetUniqueID($round_index, $match_index, '1');
+				$unique_id2 = TournamentBrackets::GetUniqueID($round_index, $match_index, '2');
 
-		$this->ForEachMatch(function ($round_index, $matches_planned, $match_index, $match_planned)
-			use ($tournament_id, $match_id) {
-			$unique_id1 = TournamentBrackets::GetUniqueID($round_index, $match_index, '1');
-			$unique_id2 = TournamentBrackets::GetUniqueID($round_index, $match_index, '2');
+				if ($unique_id1 == $match_id || $unique_id2 == $match_id) {
+					$winner_team_index = $unique_id1 == $match_id ? 1 : 2;
 
-			if ($unique_id1 == $match_id || $unique_id2 == $match_id) {
-				$winner_team_index = $unique_id1 == $match_id ? 1 : 2;
-
-				lanorg_delete_match($tournament_id, $round_index,
-														$match_planned['team1']->id, $match_planned['team2']->id,
-														$winner_team_index);
+					lanorg_delete_match($tournament_id, $round_index,
+															$match_planned['team1']->id, $match_planned['team2']->id,
+															$winner_team_index);
+				}
+				$match_index++;
 			}
-		});
+			$round_index++;
+		}
 	}
 
 	public function ForEachMatch($func) {
