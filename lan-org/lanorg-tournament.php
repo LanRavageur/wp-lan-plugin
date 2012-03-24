@@ -9,20 +9,18 @@ class TournamentBrackets {
 
 	public function __construct($teams=array()) {
 		$this->teams = $teams;
-
 	}
 
 	public function CreateSimpleEliminationTree() {
 		$round_index = 0;
 
 		$round_index = 0;
-		$this->teams = array_slice($this->teams, 0, 64);
 		$nb_teams = count($this->teams);
 
 		do
 		{
 			$this->CreateRound();
-			for ($i = 0; $i < count($this->teams); $i += 2) {
+			for ($i = 0; $i < $nb_teams; $i += 2) {
 
 
 				$this->CreateMatch($round_index, NULL, NULL);
@@ -37,6 +35,12 @@ class TournamentBrackets {
 	// Set result for every played match in round
 	public function CreateMatchesResults($matches_played) {
 		$round_index = 0;
+
+		// Associative array of id => team
+		$teams_list = array();
+		foreach ($this->teams as $team) {
+			$teams_list[$team->id] = $team;
+		}
 
 		foreach ($this->rounds as &$matches_planned) {
 			$i = 0;
@@ -81,12 +85,13 @@ class TournamentBrackets {
 				if ($match_planned['team1'] && $match_planned['team2']) {
 					// Match exists, no gap between each match
 					$skip_branches = 0;
-					foreach ($matches_played as &$match_played) {
+					foreach ($matches_played as $key => &$match_played) {
 						if ($match_played['round'] == $round_index &&
 								$match_planned['team1']->id == $match_played['team1_id'] &&
 								$match_planned['team2']->id == $match_played['team2_id'])
 						{
 							$match_planned['result'] = $match_played;
+							unset($matches_played[$key]);
 							break ;
 						}
 					}
@@ -96,9 +101,32 @@ class TournamentBrackets {
 				}
 
 				// Only pass to next teams when it is correctly aligned by preceding round branch
-				//$arr_next_
 				if ($skip_branches % 4 == 0) {
 					$i += 2;
+				}
+			}
+
+			// Seperate played matches which doesn't get into the dynamically generated tree
+			if ($round_index > 0) {
+				// Create empty matches to create gap
+				$last_nb_matches = count($this->rounds[$round_index - 1]);
+				$nb_matches = count($this->rounds[$round_index]);
+				$skip_branches = ceil($last_nb_matches / 2) - $nb_matches;
+				for ($i = 0; $i < $skip_branches; $i++) {
+					$this->CreateMatch($round_index, NULL, NULL, NULL);
+				}
+			}
+
+			foreach ($matches_played as $key => &$match_played) {
+				if ($match_played['round'] == $round_index) {
+					$team1_id = (int) $match_played['team1_id'];
+					$team2_id = (int) $match_played['team2_id'];
+
+					if (isset($teams_list[$team1_id]) && isset($teams_list[$team2_id])) {
+						$team1 = $teams_list[$team1_id];
+						$team2 = $teams_list[$team2_id];
+						$this->CreateMatch($round_index, $team1, $team2, $match_played);
+					}
 				}
 			}
 
@@ -232,6 +260,8 @@ function lanorg_tournament_page($tournament_id=NULL) {
 			}
 			// Reload matches
 			$matches = lanorg_get_matches($tournament_id);
+			$brackets = new TournamentBrackets($teams);
+			$brackets->CreateSimpleEliminationTree();
 			$brackets->CreateMatchesResults($matches);
 		}
 

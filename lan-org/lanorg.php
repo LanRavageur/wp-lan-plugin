@@ -183,8 +183,8 @@ class LanOrg {
   team2_id MEDIUMINT(5) UNSIGNED NOT NULL,
   winner SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0,
 	UNIQUE KEY id (id),
-	UNIQUE KEY id1 (round,team1_id,tournament_id),
-	UNIQUE KEY id2 (round,team2_id,tournament_id)
+	UNIQUE KEY id1 (round,team2_id, team1_id,tournament_id),
+	UNIQUE KEY id1 (round,team1_id, team2_id,tournament_id)
 );";
 		echo dbDelta($stmt);
 
