@@ -19,7 +19,7 @@ $user = wp_get_current_user();
 <a href="<?php echo lanorg_get_tournament_url(); ?>" class="lanorg-link"><?php _e('Tournaments', 'lanorg'); ?></a>
 </li>
 <li>
-<a href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout" class="lanorg-link"><?php _e('Logout', 'lanorg'); ?></a>
+<a href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout"><?php _e('Logout', 'lanorg'); ?></a>
 </li>
 </ul>
 </div>
