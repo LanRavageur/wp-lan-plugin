@@ -104,10 +104,10 @@ function lanorg_get_admin_footer() {
 // Display admin tabs
 function lanorg_get_admin_tabs($current) {
 	$tabs = array(
-		'lanorg' => 'Configuration',
-		'lanorg-events' => 'Events',
-		'lanorg-tournaments' => 'Tournaments',
-		'lanorg-teams' => 'Teams',
+		'lanorg' => __('Configuration', 'lanorg'),
+		'lanorg-events' => __('Events', 'lanorg'),
+		'lanorg-tournaments' => __('Tournaments', 'lanorg'),
+		'lanorg-teams' => __('Teams', 'lanorg'),
 	);
 
 	echo '<h2 class="nav-tab-wrapper">';
