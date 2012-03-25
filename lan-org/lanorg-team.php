@@ -133,7 +133,7 @@ function lanorg_admin_team_page() {
 		),
 	);
 
-	lanorg_get_admin_header('Teams', TRUE);
+	lanorg_get_admin_header(__('Teams', 'lanorg'), TRUE);
 
 	lanorg_get_admin_tabs('lanorg-teams');
 

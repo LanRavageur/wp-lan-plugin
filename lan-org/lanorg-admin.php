@@ -127,7 +127,7 @@ function lanorg_admin_tournaments() {
 
 	lanorg_init_tournament_form();
 
-	lanorg_get_admin_header('Tournaments', TRUE);
+	lanorg_get_admin_header(__('Tournament', 'lanorg'), TRUE);
 
 	lanorg_get_admin_tabs('lanorg-tournaments');
 
@@ -159,7 +159,7 @@ function lanorg_admin_events() {
 
 	lanorg_init_event_form();
 
-	lanorg_get_admin_header('Events', TRUE);
+	lanorg_get_admin_header(__('Events', 'lanorg'), TRUE);
 
 	lanorg_get_admin_tabs('lanorg-events');
 
