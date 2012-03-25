@@ -101,6 +101,7 @@ class LanOrg {
 	}
 
 	function add_admin_menus() {
+		// Main menu option
 		add_menu_page('LAN Organization', 'LAN Organization', 'manage_options',
 			'lanorg');
 
@@ -115,6 +116,9 @@ class LanOrg {
 
 		add_submenu_page('lanorg', __('Teams', 'lanorg'), __('Teams', 'lanorg'), 'manage_options',
 			'lanorg-teams', 'lanorg_admin_team_page');
+
+		add_submenu_page('lanorg', __('Profile', 'lanorg'), __('Profile', 'lanorg'), 'manage_options',
+			'lanorg-profile', 'lanorg_admin_profile');
 	}
 
 	function setup_post_types() {
