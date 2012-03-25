@@ -191,7 +191,7 @@ function lanorg_admin_profile() {
 
 	lanorg_init_profile_form();
 
-	lanorg_get_admin_header(__('Profile', 'lanorg'), TRUE);
+	lanorg_get_admin_header(__('Profile', 'lanorg'), FALSE);
 
 	lanorg_get_admin_tabs('lanorg-profile');
 
