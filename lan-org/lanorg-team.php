@@ -52,16 +52,16 @@ class LanOrgTeamListTable extends LanOrgListTable {
 
 		if ($action == 'edit') {
 
-			echo '<h3>Users in team</h3>';
+			echo '<h3>' . _e('Users in team', 'lanorg') . '</h3>';
 
 			if (count($this->kick_user_form) > 0) {
 				echo $this->get_form_markup($this->kick_user_form, 'Remove');
 			}
 			else {
-				echo '<p>This team doesn\'t have any member.</p>';
+				echo '<p>' . _e('This team doesn\'t have any member', 'lanorg') . '.</p>';
 			}
 
-			echo '<h3>Add user to team</h3>';
+			echo '<h3>' . _e('Add user to team', 'lanorg') . '</h3>';
 			echo $this->get_form_markup($this->add_user_form, 'Add');
 		}
 	}

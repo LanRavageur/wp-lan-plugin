@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-25 19:01-0500\n"
-"PO-Revision-Date: 2012-03-25 19:01-0500\n"
+"POT-Creation-Date: 2012-03-25 20:09-0500\n"
+"PO-Revision-Date: 2012-03-25 20:10-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -53,17 +53,17 @@ msgid "Event"
 msgstr "Évènement"
 
 #: ../lanorg-admin.php:35
-#: ../lanorg-admin.php:138
+#: ../lanorg-admin.php:139
 msgid "Game"
 msgstr "Jeu"
 
 #: ../lanorg-admin.php:41
-#: ../lanorg-admin.php:139
+#: ../lanorg-admin.php:140
 msgid "Publisher"
 msgstr "Éditeur"
 
 #: ../lanorg-admin.php:46
-#: ../lanorg-admin.php:140
+#: ../lanorg-admin.php:141
 msgid "Platform"
 msgstr "Platforme"
 
@@ -80,18 +80,18 @@ msgid "Enable teams"
 msgstr "Activer les équipes"
 
 #: ../lanorg-admin.php:74
-#: ../lanorg-admin.php:170
+#: ../lanorg-admin.php:171
 #: ../lanorg-widget.php:71
 msgid "Title"
 msgstr "Titre"
 
 #: ../lanorg-admin.php:80
-#: ../lanorg-admin.php:171
+#: ../lanorg-admin.php:172
 msgid "Date"
 msgstr "Date"
 
 #: ../lanorg-admin.php:85
-#: ../lanorg-admin.php:172
+#: ../lanorg-admin.php:173
 msgid "Location"
 msgstr "Lieu"
 
@@ -100,38 +100,56 @@ msgid "Add New"
 msgstr "Ajouter un nouveau"
 
 #: ../lanorg-admin.php:107
+#: ../lanorg.php:108
 msgid "Configuration"
 msgstr "Configuration"
 
 #: ../lanorg-admin.php:108
+#: ../lanorg-admin.php:163
+#: ../lanorg.php:111
 msgid "Events"
 msgstr "Évènements"
 
 #: ../lanorg-admin.php:109
+#: ../lanorg.php:114
 msgid "Tournaments"
 msgstr "Tournois"
 
 #: ../lanorg-admin.php:110
+#: ../lanorg-team.php:136
+#: ../lanorg.php:117
 msgid "Teams"
 msgstr "Équipes"
 
-#: ../lanorg-admin.php:135
+#: ../lanorg-admin.php:111
+#: ../lanorg-admin.php:194
+#: ../lanorg.php:120
+msgid "Profile"
+msgstr "Profile"
+
+#: ../lanorg-admin.php:131
+#: ../lanorg-team.php:123
+#: ../lanorg-team.php:145
+msgid "Tournament"
+msgstr "Tournois"
+
+#: ../lanorg-admin.php:136
 msgid "tournament"
 msgstr "tournois"
 
-#: ../lanorg-admin.php:136
+#: ../lanorg-admin.php:137
 msgid "tournaments"
 msgstr "tournois"
 
-#: ../lanorg-admin.php:141
+#: ../lanorg-admin.php:142
 msgid "Teams enebled"
 msgstr "Équipes activées"
 
-#: ../lanorg-admin.php:167
+#: ../lanorg-admin.php:168
 msgid "event"
 msgstr "évènement"
 
-#: ../lanorg-admin.php:168
+#: ../lanorg-admin.php:169
 msgid "events"
 msgstr "évènements"
 
@@ -212,10 +230,17 @@ msgstr "La confirmation de Mot de passe ne correspond pas"
 msgid "User Name"
 msgstr "Nom d'utillisateur"
 
-#: ../lanorg-team.php:123
-#: ../lanorg-team.php:145
-msgid "Tournament"
-msgstr "Tournois"
+#: ../lanorg-team.php:55
+msgid "Users in team"
+msgstr "Utilisateurs dans l'équipe"
+
+#: ../lanorg-team.php:61
+msgid "This team doesn't have any member"
+msgstr "Cette équipe n'a pas de membre"
+
+#: ../lanorg-team.php:64
+msgid "Add user to team"
+msgstr "Ajouter un utilisateur à l'équipe"
 
 #: ../lanorg-team.php:130
 #: ../lanorg-team.php:146
