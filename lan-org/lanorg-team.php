@@ -52,16 +52,16 @@ class LanOrgTeamListTable extends LanOrgListTable {
 
 		if ($action == 'edit') {
 
-			echo '<h3>' . _e('Users in team', 'lanorg') . '</h3>';
+			echo '<h3>' . __('Users in team', 'lanorg') . '</h3>';
 
 			if (count($this->kick_user_form) > 0) {
 				echo $this->get_form_markup($this->kick_user_form, 'Remove');
 			}
 			else {
-				echo '<p>' . _e('This team doesn\'t have any member', 'lanorg') . '.</p>';
+				echo '<p>' . __('This team doesn\'t have any member', 'lanorg') . '.</p>';
 			}
 
-			echo '<h3>' . _e('Add user to team', 'lanorg') . '</h3>';
+			echo '<h3>' . __('Add user to team', 'lanorg') . '</h3>';
 			echo $this->get_form_markup($this->add_user_form, 'Add');
 		}
 	}
@@ -463,7 +463,7 @@ function lanorg_display_team($team, $tournament) {
 
 		$suffix = NULL;
 		if (!$user->user_accept) {
-			$suffix = __('(invite pending)', 'lanorg');
+			$suffix = __('(invitation sent)', 'lanorg');
 		}
 		else if (!$user->team_accept) {
 			$suffix = __('(approval pending)', 'lanorg');

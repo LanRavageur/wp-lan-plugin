@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-25 20:58-0500\n"
-"PO-Revision-Date: 2012-03-25 20:58-0500\n"
+"POT-Creation-Date: 2012-03-25 21:02-0500\n"
+"PO-Revision-Date: 2012-03-25 21:02-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -281,8 +281,8 @@ msgid "Join"
 msgstr "Joindre"
 
 #: ../lanorg-team.php:466
-msgid "(invite pending)"
-msgstr "(attente d'invitation)"
+msgid "(invitation sent)"
+msgstr "(invitation envoyé)"
 
 #: ../lanorg-team.php:469
 msgid "(approval pending)"
