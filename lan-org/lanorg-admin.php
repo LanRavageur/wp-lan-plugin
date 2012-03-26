@@ -99,10 +99,7 @@ function lanorg_get_admin_tabs($current) {
 		'lanorg-events' => __('Events', 'lanorg'),
 		'lanorg-tournaments' => __('Tournaments', 'lanorg'),
 		'lanorg-teams' => __('Teams', 'lanorg'),
-<<<<<<< HEAD
-=======
 		'lanorg-profile' => __('Profile', 'lanorg'),
->>>>>>> 451ef0954c24bf49058f6e67a52da678d4e757c1
 	);
 
 	echo '<h2 class="nav-tab-wrapper">';
