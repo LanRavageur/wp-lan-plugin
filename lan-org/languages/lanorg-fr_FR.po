@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-25 20:49-0500\n"
-"PO-Revision-Date: 2012-03-25 20:52-0500\n"
+"POT-Creation-Date: 2012-03-25 20:58-0500\n"
+"PO-Revision-Date: 2012-03-25 20:58-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -47,6 +47,15 @@ msgstr "Confirmation de Mot de passe"
 #: ../lanorg-account.php:151
 msgid "Username or password incorrect"
 msgstr "Nom d'utilisateur ou mot de passe incorrect"
+
+#: ../lanorg-admin-list.php:48
+msgid "Edit"
+msgstr "Modifier"
+
+#: ../lanorg-admin-list.php:52
+#: ../lanorg-team.php:436
+msgid "Delete"
+msgstr "Supprimer"
 
 #: ../lanorg-admin.php:28
 msgid "Event"
@@ -254,10 +263,6 @@ msgstr "équipe"
 #: ../lanorg-team.php:142
 msgid "teams"
 msgstr "équipes"
-
-#: ../lanorg-team.php:436
-msgid "Delete"
-msgstr "Supprimer"
 
 #: ../lanorg-team.php:439
 msgid "Leave"
