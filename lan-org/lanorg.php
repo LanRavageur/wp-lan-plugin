@@ -190,7 +190,7 @@ class LanOrg {
 	UNIQUE KEY id1 (round,team2_id, team1_id,tournament_id),
 	UNIQUE KEY id1 (round,team1_id, team2_id,tournament_id)
 );";
-		echo dbDelta($stmt);
+		dbDelta($stmt);
 
 		$table_name = $wpdb->prefix . 'lanorg_events_users';
 		$stmt =

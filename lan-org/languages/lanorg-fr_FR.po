@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lan-org\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-25 20:09-0500\n"
-"PO-Revision-Date: 2012-03-25 20:10-0500\n"
+"POT-Creation-Date: 2012-03-25 20:49-0500\n"
+"PO-Revision-Date: 2012-03-25 20:52-0500\n"
 "Last-Translator: Gabriel Le Breton <lebreton.gabriel@gmail.com>\n"
 "Language-Team: lan-org <lanravageur@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -254,6 +254,54 @@ msgstr "équipe"
 #: ../lanorg-team.php:142
 msgid "teams"
 msgstr "équipes"
+
+#: ../lanorg-team.php:436
+msgid "Delete"
+msgstr "Supprimer"
+
+#: ../lanorg-team.php:439
+msgid "Leave"
+msgstr "Quitter"
+
+#: ../lanorg-team.php:443
+msgid "Yes"
+msgstr "Oui"
+
+#: ../lanorg-team.php:444
+msgid "No"
+msgstr "Non"
+
+#: ../lanorg-team.php:449
+msgid "Join"
+msgstr "Joindre"
+
+#: ../lanorg-team.php:466
+msgid "(invite pending)"
+msgstr "(attente d'invitation)"
+
+#: ../lanorg-team.php:469
+msgid "(approval pending)"
+msgstr "(attente d'aprobation)"
+
+#: ../lanorg-team.php:472
+msgid "(manager)"
+msgstr "(Chef)"
+
+#: ../lanorg-team.php:492
+msgid "Kick"
+msgstr "Expulser"
+
+#: ../lanorg-team.php:493
+msgid "Accept"
+msgstr "Accepter"
+
+#: ../lanorg-team.php:499
+msgid "Invite a user..."
+msgstr "Inviter un utilisateur..."
+
+#: ../lanorg-team.php:500
+msgid "Invite"
+msgstr "Inviter"
 
 #: ../lanorg-widget.php:15
 msgid "Main LAN Organization widget"

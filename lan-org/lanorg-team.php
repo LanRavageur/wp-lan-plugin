@@ -433,20 +433,20 @@ function lanorg_display_team($team, $tournament) {
 	if ($user_in_team) {
 		if ($user_accept) {
 			if ($is_manager) {
-				echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="Supprimer"/>';
+				echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="' . __('Delete', 'lanorg') . '"/>';
 			}
 			else {
-				echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="Partir"/>';
+				echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="' . __('Leave', 'lanorg') . '"/>';
 			}
 		}
 		else {
-			echo	'<input type="submit" name="lanorg-join" class="lanorg-button" value="Oui"/>';
-			echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="Non"/>';
+			echo	'<input type="submit" name="lanorg-join" class="lanorg-button" value="' . __('Yes', 'lanorg') . '"/>';
+			echo	'<input type="submit" name="lanorg-leave" class="lanorg-button" value="' . __('No', 'lanorg') . '"/>';
 		}
 	}
 	else {
 		if (!$tournament || !$tournament->team_size || count($team->users) < (int) $tournament->team_size) {
-			echo	'<input type="submit" name="lanorg-join" class="lanorg-button" value="Rejoindre"/>';
+			echo	'<input type="submit" name="lanorg-join" class="lanorg-button" value="' . __('Join', 'lanorg') . '"/>';
 		}
 	}
 
@@ -463,13 +463,13 @@ function lanorg_display_team($team, $tournament) {
 
 		$suffix = NULL;
 		if (!$user->user_accept) {
-			$suffix = '(invite pending)';
+			$suffix = __('(invite pending)', 'lanorg');
 		}
 		else if (!$user->team_accept) {
-			$suffix = '(approval pending)';
+			$suffix = __('(approval pending)', 'lanorg');
 		}
 		else if ($user->user_id == $team->owner_id) {
-			$suffix = '(manager)';
+			$suffix = __('(manager)', 'lanorg');
 		}
 		echo 	'<tr class="row">' .
 					'<td class="left"></td>' .
@@ -489,15 +489,15 @@ function lanorg_display_team($team, $tournament) {
 	if ($can_invite) {
 		echo 	'<tr>' .
 					'<td class="left"></td>' .
-					'<td colspan="2"><input type="submit" name="lanorg-kick" class="lanorg-button" value="Expulser ^"/>' .
-					'<input type="submit" name="lanorg-accept" class="lanorg-button" value="Accepter"/></td>' .
+					'<td colspan="2"><input type="submit" name="lanorg-kick" class="lanorg-button" value="' . __('Kick', 'lanorg') . '"/>' .
+					'<input type="submit" name="lanorg-accept" class="lanorg-button" value="' . __('Accept', 'lanorg') . '"/></td>' .
 					'<td class="right"></td>' .
 					'</tr>';
 
 		echo 	'<tr>' .
 					'<td class="left"></td>' .
-					'<td><input type="text" name="lanorg-username" class="lanorg-text" placeholder="Inviter un utilisateur..."/></td>';
-		echo	'<td><input type="submit" name="lanorg-invite" class="lanorg-button" value="Inviter"/></td>';
+					'<td><input type="text" name="lanorg-username" class="lanorg-text" placeholder="' . __('Invite a user...', 'lanorg') . '"/></td>';
+		echo	'<td><input type="submit" name="lanorg-invite" class="lanorg-button" value="' . __('Invite', 'lanorg') . '"/></td>';
 		echo	'<td class="right"></td>' .
 					'</tr>';
 	}
