@@ -11,43 +11,46 @@ div.lanorg-2col-right {
   margin-left: 205px;
 }
 
+div.lanorg-menu-wrap {
+  border: 3px solid #3b3b3b;
+  padding: 1px;
+  background: #000;
+}
+
 ul.lanorg-menu {
   list-style: none;
-  background: #242424 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MEFENDdFRkI3MTE3MTFFMUExRTlFNTkyMzU4QkVDNjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MEFENDdFRkM3MTE3MTFFMUExRTlFNTkyMzU4QkVDNjgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowQUQ0N0VGOTcxMTcxMUUxQTFFOUU1OTIzNThCRUM2OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDowQUQ0N0VGQTcxMTcxMUUxQTFFOUU1OTIzNThCRUM2OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PhiyuTIAAAA9SURBVHjaYlRVVWVAAuzs7Mhclv///yPz//79i08ajUtImgEVoEtzcXEh83/+/IkijeYWEu0mTRoNAAQYADAILX3SKa5qAAAAAElFTkSuQmCC);
+  background: #222;
   margin: 0;
   padding: 0;
-  border-radius: 10px;
   text-align: center;
-  padding: 10px 0;
-  border: 1px solid #636363;
 }
 
 ul.lanorg-menu a {
   color: #fff;
   display: inline-block;
   width: 100%;
+  height: 100%;
+  padding-top: 5px;
+  height: 33px;
 }
 
 ul.lanorg-menu li {
-  padding: 5px 0;
-  border-bottom: 1px solid #636363;
+  padding: 0;
+  margin: 0;
+  background: url(../images/menu-item.png) repeat-x;
+  height: 38px;
 }
 
 ul.lanorg-menu li.lanorg-menu-title {
-  background: #ff7200;
-  background: -moz-linear-gradient(#ff9c4c, #d96100);
-  background: -webkit-linear-gradient(#ff9c4c, #d96100);
+  background: url(../images/menu-item-title.png) repeat-x;
   font-size: 22px;
   text-transform: uppercase;
-  padding: 2px 0;
-  border-top: 1px solid #a54900;
-  border-bottom: 1px solid #ff7100;
-  width: 110%;
-  margin-left: -5%;
+  padding: 0;
 }
 
 ul.lanorg-menu li.lanorg-menu-title a {
-  color: #000;
+  padding-top: 1px;
+  height: 37px;
 }
 
 table.lanorg-team-list {
