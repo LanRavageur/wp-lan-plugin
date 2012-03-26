@@ -45,11 +45,11 @@ class LanOrgListTable extends WP_List_Table {
 		return array(
 			array(
 				'key' => 'edit',
-				'name' => 'Edit',
+				'name' => __('Edit', 'lanorg'),
 			),
 			array(
 				'key' => 'delete',
-				'name' => 'Delete',
+				'name' => __('Delete', 'lanorg'),
 			),
 		);
 	}

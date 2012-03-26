@@ -102,20 +102,24 @@ class LanOrg {
 	}
 
 	function add_admin_menus() {
+		// Main menu option
 		add_menu_page('LAN Organization', 'LAN Organization', 'manage_options',
 			'lanorg');
 
-		add_submenu_page('lanorg', 'Configuration', 'Configuration', 'manage_options',
+		add_submenu_page('lanorg', __('Configuration', 'lanorg'), __('Configuration', 'lanorg'), 'manage_options',
 			'lanorg', 'lanorg_admin_settings');
 
-		add_submenu_page('lanorg', 'Events', 'Events', 'manage_options',
+		add_submenu_page('lanorg', __('Events', 'lanorg'), __('Events', 'lanorg'), 'manage_options',
 			'lanorg-events', 'lanorg_admin_events');
 
-		add_submenu_page('lanorg', 'Tournaments', 'Tournaments', 'manage_options',
+		add_submenu_page('lanorg', __('Tournaments', 'lanorg'), __('Tournaments', 'lanorg'), 'manage_options',
 			'lanorg-tournaments', 'lanorg_admin_tournaments');
 
-		add_submenu_page('lanorg', 'Teams', 'Teams', 'manage_options',
+		add_submenu_page('lanorg', __('Teams', 'lanorg'), __('Teams', 'lanorg'), 'manage_options',
 			'lanorg-teams', 'lanorg_admin_team_page');
+
+		add_submenu_page('lanorg', __('Profile', 'lanorg'), __('Profile', 'lanorg'), 'manage_options',
+			'lanorg-profile', 'lanorg_admin_profile');
 	}
 
 	function setup_post_types() {
@@ -190,6 +194,10 @@ class LanOrg {
 	UNIQUE KEY id1 (round,team2_id, team1_id,tournament_id),
 	UNIQUE KEY id1 (round,team1_id, team2_id,tournament_id)
 );";
+<<<<<<< HEAD
+=======
+		dbDelta($stmt);
+>>>>>>> 451ef0954c24bf49058f6e67a52da678d4e757c1
 
 		$table_name = $wpdb->prefix . 'lanorg_events_users';
 		$stmt =

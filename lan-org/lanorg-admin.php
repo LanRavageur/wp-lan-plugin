@@ -99,6 +99,10 @@ function lanorg_get_admin_tabs($current) {
 		'lanorg-events' => __('Events', 'lanorg'),
 		'lanorg-tournaments' => __('Tournaments', 'lanorg'),
 		'lanorg-teams' => __('Teams', 'lanorg'),
+<<<<<<< HEAD
+=======
+		'lanorg-profile' => __('Profile', 'lanorg'),
+>>>>>>> 451ef0954c24bf49058f6e67a52da678d4e757c1
 	);
 
 	echo '<h2 class="nav-tab-wrapper">';
@@ -200,7 +204,7 @@ function lanorg_admin_tournaments() {
 
 	$form = lanorg_get_tournament_form();
 
-	lanorg_get_admin_header('Tournaments', TRUE);
+	lanorg_get_admin_header(__('Tournament', 'lanorg'), TRUE);
 
 	lanorg_get_admin_tabs('lanorg-tournaments');
 
@@ -231,7 +235,7 @@ function lanorg_admin_events() {
 
 	$form = lanorg_get_event_form();
 
-	lanorg_get_admin_header('Events', TRUE);
+	lanorg_get_admin_header(__('Events', 'lanorg'), TRUE);
 
 	lanorg_get_admin_tabs('lanorg-events');
 
@@ -253,6 +257,20 @@ function lanorg_admin_events() {
 	$table->prepare_items();
 
 	$table->display();
+
+	lanorg_get_admin_footer();
+}
+
+function lanorg_admin_profile() {
+	global $lanorg_profile_form;
+
+	lanorg_init_profile_form();
+
+	lanorg_get_admin_header(__('Profile', 'lanorg'), FALSE);
+
+	lanorg_get_admin_tabs('lanorg-profile');
+
+	//TODO: add stuff here :)
 
 	lanorg_get_admin_footer();
 }
