@@ -82,6 +82,7 @@ class LanOrg {
 		add_shortcode('lanorg-register', 'lanorg_shortcode_registration_form');
 
 		add_action('generate_rewrite_rules', array($this, 'add_rewrite_rules'));
+		add_action('admin_init', 'lanorg_add_admin_settings');
 		add_action('admin_menu', array($this, 'add_admin_menus'));
 		add_filter('query_vars', array($this, 'get_query_vars'));
 	}
@@ -154,6 +155,8 @@ class LanOrg {
 	title TINYTEXT NOT NULL,
 	date DATE NOT NULL,
 	location TINYTEXT NOT NULL,
+  entry_cost DECIMAL(10, 2) UNSIGNED NOT NULL,
+  max_participants BIGINT(20) UNSIGNED NOT NULL,
 	UNIQUE KEY id (id)
 );";
 		dbDelta($stmt);
@@ -169,6 +172,7 @@ class LanOrg {
 	allow_teams TINYINT(1) NOT NULL,
   max_team MEDIUMINT(5) UNSIGNED NOT NULL,
   team_size MEDIUMINT(5) UNSIGNED NOT NULL,
+  entry_cost DECIMAL(10, 2) UNSIGNED NOT NULL,
 	UNIQUE KEY id (id)
 );";
 		dbDelta($stmt);
@@ -186,7 +190,6 @@ class LanOrg {
 	UNIQUE KEY id1 (round,team2_id, team1_id,tournament_id),
 	UNIQUE KEY id1 (round,team1_id, team2_id,tournament_id)
 );";
-		echo dbDelta($stmt);
 
 		$table_name = $wpdb->prefix . 'lanorg_events_users';
 		$stmt =

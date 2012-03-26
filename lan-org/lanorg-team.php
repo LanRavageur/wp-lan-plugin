@@ -282,6 +282,7 @@ function lanorg_get_teams($tournament_id) {
 	$table_name = $wpdb->prefix . 'lanorg_teams';
 
 	$teams = $wpdb->get_results("SELECT * FROM $table_name WHERE tournament_id = $tournament_id ORDER BY position ASC");
+
 	return $teams;
 }
 
