@@ -130,6 +130,7 @@ class LanOrg {
 		$query_vars[] = 'user_id';
 		$query_vars[] = 'tournament_id';
 		$query_vars[] = 'lanorg_ajax';
+		$query_vars[] = 'event';
 		return $query_vars;
 	}
 
@@ -137,9 +138,13 @@ class LanOrg {
 		$new_rules = array(
 			'login/?$' => 'index.php?lanorg_page=login',
 			'registration/?$' => 'index.php?lanorg_page=registration',
-			'tournament/?$' => 'index.php?lanorg_page=tournament',
-			'tournament/?([0-9]{1,})/?$' => 'index.php?lanorg_page=tournament&tournament_id=' . $wp_rewrite->preg_index(1),
-			'team/?$' => 'index.php?lanorg_page=team',
+			'tournament/?([0-9]{1,})/?([0-9]{1,})/?$' => 'index.php?lanorg_page=tournament' .
+				'&event=' . $wp_rewrite->preg_index(1) .
+				'&tournament_id=' . $wp_rewrite->preg_index(2),
+			'tournament/?([0-9]{1,})/?$' => 'index.php?lanorg_page=tournament' .
+				'&event=' . $wp_rewrite->preg_index(1),
+			'team/?([0-9]{1,})/?$' => 'index.php?lanorg_page=team' .
+				'&event=' . $wp_rewrite->preg_index(1),
 			'live/?$' => 'index.php?lanorg_page=live',
 			'profile/?$' => 'index.php?lanorg_page=profile',
 			'profile/?([0-9]{1,})/?$' => 'index.php?lanorg_page=profile&user_id=' . $wp_rewrite->preg_index(1),
@@ -240,6 +245,8 @@ class LanOrg {
 
 		$this->load_static_files();
 
+		$event_id = (int) get_query_var('event');
+
 		if (isset($wp_query->query_vars['lanorg_page']))
 		{
 			switch ($wp_query->query_vars['lanorg_page']) {
@@ -247,11 +254,14 @@ class LanOrg {
 				lanorg_registration_page();
 				break ;
 			case 'team':
-				lanorg_team_page();
+				lanorg_render_team_page($event_id);
 				break ;
 			case 'tournament':
-				$tournament_id = isset($wp_query->query_vars['tournament_id']) ? $wp_query->query_vars['tournament_id'] : NULL;
-				lanorg_tournament_page($tournament_id);
+				$tournament_id = NULL;
+				if (isset($wp_query->query_vars['tournament_id'])) {
+					$tournament_id = (int) get_query_var('tournament_id');
+				}
+				lanorg_render_tournament_page($event_id, $tournament_id);
 				break ;
 			case 'live':
 				$this->render_two_column_page('lanorg-live.php');

@@ -11,6 +11,6 @@ $page_title = __('Admission', 'lanorg');
 <form class="lanorg-form" method="POST">
 <?php echo lanorg_get_registration_form_markup(); ?>
 <p>
-<input type="submit" class="lanorg-button" value="<?php _e('Register', 'lanorg'); ?>" />
+<input type="submit" class="btn btn-primary" value="<?php _e('Register', 'lanorg'); ?>" />
 </p>
 </form>

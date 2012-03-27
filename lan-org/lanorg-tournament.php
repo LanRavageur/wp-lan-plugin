@@ -237,7 +237,7 @@ class TournamentBrackets {
 	}
 }
 
-function lanorg_tournament_page($tournament_id=NULL) {
+function lanorg_render_tournament_page($event_id, $tournament_id=NULL) {
 	global $lanOrg;
 
 	if ($tournament_id !== NULL) {
@@ -270,18 +270,16 @@ function lanorg_tournament_page($tournament_id=NULL) {
 		$GLOBALS['tournament'] = lanorg_get_tournament_by_id($tournament_id);
 		$GLOBALS['teams'] = $teams;
 		$GLOBALS['rounds'] = $rounds;
+		$GLOBALS['event_id'] = $event_id;
 
 		$lanOrg->render_two_column_page('lanorg-tournament-view.php');
 
 	}
 	else { // List all tournaments
-		$lan_events = lanorg_get_all_events();
+		$tournaments = lanorg_get_tournaments($event_id);
 
-		foreach ($lan_events as $event) {
-			$event->tournaments = lanorg_get_tournaments($event->id);
-		}
-
-		$GLOBALS['lan_events'] = $lan_events;
+		$GLOBALS['tournaments'] = $tournaments;
+		$GLOBALS['event_id'] = $event_id;
 
 		$lanOrg->render_two_column_page('lanorg-tournament.php');
 	}
@@ -324,18 +322,21 @@ function lanorg_delete_match($tournament_id, $round, $team1_id, $team2_id) {
 }
 
 // Return url to registration page
-function lanorg_get_tournament_url($tournament_id=NULL) {
+function lanorg_get_tournament_url($event_id, $tournament_id=NULL) {
 	global $wp_rewrite;
 
 	if ($wp_rewrite->using_permalinks()) {
-		$url = $wp_rewrite->root . 'tournament/';
+		$url = $wp_rewrite->root . 'tournament/' . $event_id . '/';
 		if ($tournament_id !== NULL) {
 			$url .= $tournament_id . '/';
 		}
 		$url = home_url(user_trailingslashit($url));
 	}
 	else {
-		$vars = array('lanorg_page' => 'tournament');
+		$vars = array(
+			'lanorg_page' => 'tournament',
+			'event' => $event_id,
+		);
 		if ($tournament_id !== NULL) {
 			$vars['tournament_id'] = $tournament_id;
 		}

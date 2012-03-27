@@ -11,8 +11,8 @@ $page_title = 'Tournois';
 <h1 style="clear: none;" class="entry-title"><?php echo htmlentities($tournament['game'], NULL, 'UTF-8'); ?></h1>
 <form method="POST" class="lanorg-form">
 <p>
-<input type="submit" name="lanorg-add-match" value="Declare winner"/>
-<input type="submit" name="lanorg-delete-match" value="Cancel match"/>
+<input type="submit" name="lanorg-add-match" value="Declare winner" class="btn btn-success"/>
+<input type="submit" name="lanorg-delete-match" value="Cancel match" class="btn btn-danger"/>
 </p>
 <?php
 $tournament_page_size = count($rounds) * 157 + 20;

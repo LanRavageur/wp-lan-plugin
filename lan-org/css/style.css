@@ -43,14 +43,14 @@ ul.lanorg-menu li {
 
 ul.lanorg-menu li.lanorg-menu-title {
   background: url(../images/menu-item-title.png) repeat-x;
-  font-size: 22px;
+  font-size: 18px;
   text-transform: uppercase;
   padding: 0;
 }
 
 ul.lanorg-menu li.lanorg-menu-title a {
-  padding-top: 1px;
-  height: 37px;
+  padding-top: 7px;
+  height: 26px;
 }
 
 table.lanorg-team-list {

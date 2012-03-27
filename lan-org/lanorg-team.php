@@ -324,7 +324,7 @@ function lanorg_get_create_team_form_markup() {
 	return lanorg_form(lanorg_get_create_team_form());
 }
 
-function lanorg_team_page() {
+function lanorg_render_team_page($event_id) {
 	global $lanOrg;
 
 	$current_user_id = get_current_user_id();
@@ -385,22 +385,16 @@ function lanorg_team_page() {
 		}
 	}
 
-	$lan_events = lanorg_get_all_events();
+	$tournaments = lanorg_get_tournaments($event_id);
 
-	foreach ($lan_events as $event) {
-		$event->tournaments = lanorg_get_tournaments($event->id);
+	foreach ($tournaments as $tournament) {
+		$tournament->teams = lanorg_get_teams($tournament->id);
 
-		foreach ($event->tournaments as $tournament) {
-			$tournament->teams = lanorg_get_teams($tournament->id);
-
-			foreach ($tournament->teams as $team) {
-				$team->users = lanorg_get_team_users($team->id);
-			}
-			//lanorg_get_team_users($tournament->id);
+		foreach ($tournament->teams as $team) {
+			$team->users = lanorg_get_team_users($team->id);
 		}
 	}
-
-	$GLOBALS['lan_events'] = $lan_events;
+	$GLOBALS['tournaments'] = $tournaments;
 
 	$lanOrg->render_two_column_page('lanorg-team.php');
 }
@@ -472,7 +466,7 @@ function lanorg_display_team($team, $tournament) {
 		else if ($user->user_id == $team->owner_id) {
 			$suffix = __('(manager)', 'lanorg');
 		}
-		echo 	'<tr class="row">' .
+		echo 	'<tr>' .
 					'<td class="left"></td>' .
 					'<td><span><a href="' . lanorg_get_user_profile_url($user->user_id) . '" class="lanorg-link">' .
 					htmlentities($user->username, NULL, 'UTF-8') . '</a>' .
@@ -508,15 +502,18 @@ function lanorg_display_team($team, $tournament) {
 }
 
 // Return url to teams management page
-function lanorg_get_team_url() {
+function lanorg_get_team_url($event_id) {
 	global $wp_rewrite;
 
 	if ($wp_rewrite->using_permalinks()) {
-		$url = $wp_rewrite->root . 'team/';
+		$url = $wp_rewrite->root . 'team/' . $event_id . '/';
 		$url = home_url(user_trailingslashit($url));
 	}
 	else {
-		$vars = array('lanorg_page' => 'teams');
+		$vars = array(
+			'event' => $event_id,
+			'lanorg_page' => 'teams'
+		);
 		$url = add_query_arg($vars, home_url( '/'));
 	}
 	return htmlentities($url, NULL, 'UTF-8');
