@@ -1,0 +1,64 @@
+<body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<script src="seat-picker.js"></script>
+<style>
+.lanorg-room {
+  border: 1px solid #686868;
+}
+
+.lanorg-seat {
+  border: 1px solid #686868;
+  cursor: move;
+  background-color: #ffffff;
+}
+
+.lanorg-seat-selected {
+  border: 1px solid #ad0000;
+  box-shadow: #bb0000 1px 1px 4px;
+}
+
+.ui-resizable-handle {
+  position: absolute;
+  font-size: 0.1px;
+  z-index: 99999;
+  display: block;
+}
+
+.ui-resizable-e {
+  cursor: e-resize;
+  width: 7px;
+  right: -5px;
+  top: 0;
+  height: 100%;
+}
+
+.ui-resizable-s {
+  cursor: s-resize;
+  height: 7px;
+  width: 100%;
+  bottom: -5px;
+  left: 0;
+}
+
+.ui-resizable-se {
+  cursor: se-resize;
+  width: 12px;
+  height: 12px;
+  right: 1px;
+  bottom: 1px;
+}
+
+.ui-resizable-helper {
+  border: 1px dotted gray;
+}
+
+</style>
+<script>
+room = new LanOrg.Room(document.body, 200, 106, 20, 20);
+
+room.addSeat(new LanOrg.RoomSeat(15, 15, 5));
+</script>
+<span id="x"></span>
+<span id="y"></span>
+</body>
