@@ -48,7 +48,7 @@ function lanorg_init_profile_form() {
 // If the user_id is NULL, a page to edit the current user profile is shown.
 function lanorg_profile_page($user_id=0) {
 	global $lanOrg, $lanorg_profile_edit_form;
-
+	wp_enqueue_style('lanorg-profile');
 	lanorg_init_profile_form();
 
 	if ($user_id) {		// View user profile
@@ -58,8 +58,10 @@ function lanorg_profile_page($user_id=0) {
 		$meta_data = array();
 		foreach ($lanorg_profile_edit_form as $field) {
 			$key = $field['key'];
-
-			$meta_data[$field['label']] = get_user_meta($user_id, $key, TRUE);
+			$metaValue = get_user_meta($user_id, $key, TRUE);
+			if ($metaValue <> ""){
+				$meta_data[$field['label']] = $metaValue;
+			}
 		}
 
 		$GLOBALS['user_meta_data'] = $meta_data;

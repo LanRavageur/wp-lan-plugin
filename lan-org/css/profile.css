@@ -1,0 +1,7 @@
+div.lanorg-2col-right img.avatar{	.	
+	-webkit-transform: rotate(-10deg);
+	-moz-transform: rotate(-10deg);
+	border: 2px solid white;
+    box-shadow: 0 3px 6px;
+    margin: 5px;
+}

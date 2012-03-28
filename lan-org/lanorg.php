@@ -89,6 +89,7 @@ class LanOrg {
 
 	function load_static_files() {
 		wp_register_style('lanorg-form', plugins_url('css/form.css', __FILE__));
+		wp_register_style('lanorg-profile', plugins_url('css/profile.css', __FILE__));
 		wp_register_style('lanorg-style', plugins_url('css/style.css', __FILE__));
 
 		wp_register_script('lanorg-history', plugins_url('js/jquery.history.js', __FILE__),
